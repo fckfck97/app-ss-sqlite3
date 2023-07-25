@@ -1,6 +1,5 @@
 Django==4.2.3
 django-environ==0.10.0
-django-tenants==3.5.0
 django-allauth==0.54.0
 django-tailwind==3.6.0
 django-import-export==3.2.0
