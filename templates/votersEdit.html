@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<main class="main">
+    <div class="hero min-h-screen bg-base-100" id="inicio">
+        <div class="hero-content flex-col md:flex-row-reverse md:w-full">
+            <div class="flex flex-wrap justify-center px-4 py-5 sm:p-6">
+                <div class="ml-4 mt-2 flex-shrink-0">
+                    <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-nowrap">
+                        <div class="ml-4 mt-2">
+                            <h1 class="text-5xl font-extrabold"><span class="accent-orange">Edita </span><span class="accent-purple">los datos</span></h1>
+                            <form class="form-horizontal dark:text-dark-txt" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="relative">
+                                <label for="nuip" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Cedula de Identidad
+                                </label>
+                                    {{form.nuip}}
+
+                                <label for="name" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Nombre Completo
+                                </label>
+                                    {{form.fullName}}
+
+                                <label for="name" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Barrio
+                                </label>
+                                    {{form.quarter}}
+                                
+                                <label for="name" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Punto de Votacion
+                                </label>
+                                    {{form.votingPoint}}
+                                    
+                                <label for="numberPhone" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Numero Telefonico
+                                </label>
+                                    {{form.numberPhone}}
+                                            
+                                <label for="email" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    E-mail
+                                </label>
+                                    {{form.email}}
+                                
+                                <div class="control-group">
+                                    <div class="controls">
+                                        
+                                        <button type="submit" class="mt-4 inline-flex float-right items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded dark:text-dark-txt text-indigo-700 dark:bg-dark-third bg-indigo-100 dark:hover:bg-dark-third hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-dark-third focus:ring-indigo-500">
+                                        Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock content %}

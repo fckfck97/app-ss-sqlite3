@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Listado General de Registro de Votantes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css">
+    <style type="text/css">
+        .table {
+            min-width: 100%;
+        }
+
+        .table th,
+        .table td {
+            padding: 1rem;
+            text-align: center;
+            border-top: 1px solid #E5E7EB;
+        }
+
+        .table thead th {
+            vertical-align: middle;
+            border-bottom: 2px solid #CBD5E0;
+        }
+
+        .table tbody + tbody {
+            border-top: 2px solid #CBD5E0;
+        }
+
+        .list-group p {
+            line-height: 1.5;
+        }
+
+        .suma-total > h3 {
+            text-align: right;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto my-10">
+        <div class="bg-white w-full p-4">
+            <h4 class="text-center text-xl font-bold">Reporte de Votantes</h4>
+            <p class="text-center text-sm">Del candidato {{name}}</p>
+            <p class="text-center text-sm">Por el coordinador {{ user }}</p>
+
+            <table class="table mt-4">
+                <thead>
+                    <tr>
+                        <th>Cedula</th>
+                        <th>Nombre Completo</th>
+                        <th>Barrio</th>
+                        <th>Punto de Votacion</th>
+                        <th>Numero de Telf</th>
+                        <th>E-mail</th>
+                        <th>Registrado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in enc %}
+                    <tr>
+                        <td>{{ item.nuip }}</td>
+                        <td>{{ item.fullName }}</td>
+                        <td>{{ item.quarter }}</td>
+                        <td>{{ item.votingPoint }}</td>
+                        <td>{{ item.numberPhone }}</td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.created|date:"d-m-Y" }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="suma-total mt-4">
+                <h3 class="font-bold">Total votantes: {{ quantity }}</h3>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

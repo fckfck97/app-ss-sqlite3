@@ -1,0 +1,136 @@
+{% load static tailwind_tags %}
+
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth" data-theme="themeOrange" prefix="og:https://ogp.me/ns/website#">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link href="" rel="apple-touch-icon">
+    {% comment %} django select {% endcomment %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+
+    {% tailwind_css %}
+    
+    <!--Alpine JS-->
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+    <!--Boxicons-->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+
+    <meta name="author" content="ASPAI">
+    <title>ASPAI</title>
+    <meta name="description" content="">
+
+</head>
+{% if messages %}
+{% include 'messages.html' %}
+{% endif %}
+<body>
+  <header class="sticky top-0 bg-base-100 shadow-md z-10 rounded-b-md">
+    <div class="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center" x-data="{ isOpen: false }">
+        <div class="flex justify-between items-center">
+            <div>
+                <a href="/" class="text-xl font-bold text-gray-800 flex items-center">
+                    <img src="{% static 'assets/img/yl-logo.svg' %}" alt="Creative Ferrets logo" class="h-5 w-5 mr-2">
+                    <span class="text-black-700">ASPAI</span>
+                </a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <div class="flex md:hidden">
+                <button @click="isOpen = !isOpen" type="button" class="text-gray-500 hover:text-gray-600 outline-none focus:outline-none">
+                    <span class="sr-only">Toggle Menu</span>
+                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
+                        <path fill-rule="evenodd" d="M4 5h16a1 1 0 010 2H4a1 1 0 110-2zm0 6h16a1 1 0 010 2H4a1 1 0 110-2zm0 6h16a1 1 0 010 2H4a1 1 0 110-2z"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
+            <div class="md:hidden" x-show="isOpen">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                  <a href="#inicio" class="text-sm text-gray-700">Inicio</a>
+                  {% if not user.is_authenticated %}
+                      <a href="{% url 'account_login' %}" class="text-sm text-gray-700">Ingresa</a>
+                  {% else %}
+                      <a href="#" class="text-sm text-gray-700">Perfil</a>
+                      <a href="{% url 'account_logout' %}" class="text-sm text-gray-700">Salir</a>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div class="hidden md:flex md:items-center md:justify-between">
+            <div class="flex space-x-7">
+                <a href="#inicio" class="text-sm text-gray-700">Inicio</a>
+                {% if not user.is_authenticated %}
+                    <a href="{% url 'account_login' %}" class="text-sm text-gray-700">Ingresa</a>
+                {% else %}
+                    <a href="#" class="text-sm text-gray-700">Perfil</a>
+                    <a href="{% url 'account_logout' %}" class="text-sm text-gray-700">Salir</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+  </header>
+
+    {% block content %}
+    <main>
+      <section class="min-h-screen bg-base-100" id="inicio">
+          <div class="container mx-auto flex flex-col md:flex-row items-center justify-center px-4 py-6 md:py-16">
+              <img src="{% static 'assets/img/search_outline_II.svg' %}" class="w-full md:w-1/2 max-w-2xl rounded-lg shadow-lg"/>
+              <div class="md:w-1/2 px-4 md:pl-8">
+                  <h1 class="text-5xl font-extrabold text-orange-900">SS APP</h1>
+                  <p class="mt-4 text-xl">El app ideal, para mantener todos sus usuarios registrados.</p>
+                  {% if user.is_authenticated %}
+                  <a href="{% url 'voter:voter-list' %}" class="mt-8 w-full md:w-auto text-center border border-purple-500 text-purple-500 hover:text-white hover:bg-purple-500 py-3 px-6 rounded-md">Ver Votantes</a>
+                  {% endif %}
+              </div>
+          </div>
+        </section>
+  </main>
+    {% endblock content %}
+
+<footer class="bg-base-100 text-base-content py-10 md:py-16 px-4 md:px-8">
+      <div class="container mx-auto flex flex-wrap md:flex-nowrap justify-between">
+          <div class="w-full md:w-auto mb-8 md:mb-0">
+              <img src="{% static 'assets/img/yl-logo.svg' %}" alt="ASPAI logo">
+              <p class="mt-4">ASPAI Copyright © 2023<br/>Todos los derechos reservados</p>
+          </div>
+          <div class="w-full md:w-auto mb-8 md:mb-0">
+              <span class="font-bold">Empresa</span>
+              <ul>
+                  <li><a href="#servicios" class="text-purple-500 hover:underline">Servicios</a></li>
+                  <li><a href="#plan" class="text-purple-500 hover:underline">Plan</a></li>
+                  <li><a href="#contacto" class="text-purple-500 hover:underline">Contacto</a></li>
+              </ul>
+          </div>
+          <div class="w-full md:w-auto mb-8 md:mb-0">
+              <span class="font-bold">Legal</span>
+              <ul>
+                  <li><a href="./pages/legal/terms-and-conditions.html" class="text-purple-500 hover:underline" rel="nofollow">Términos de uso</a></li>
+                  <li><a href="./pages/legal/privacy-policy.html" class="text-purple-500 hover:underline" rel="nofollow">Política de privacidad</a></li>
+                  <li><a href="./pages/legal/cookies-policy.html" class="text-purple-500 hover:underline" rel="nofollow">Política de cookies</a></li>
+              </ul>
+          </div>
+          <div class="w-full md:w-auto">
+              <span class="font-bold">Contacto</span>
+              <p class="mt-4 flex items-center">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-at mr-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                    <path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28"></path>
+                </svg>
+                <a href="mailto:info@youlink.creativeferrets.com" class="text-purple-800 hover:underline">info@aspai.com</a>
+            </p>
+            <!-- Social media links go here -->
+        </div>
+    </div>
+</footer>
+</body>
+</html>

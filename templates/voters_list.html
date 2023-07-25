@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="w-full overflow-hidden rounded-lg shadow-xs mb-10">
+    <div class="w-full overflow-x-auto">
+        <div class="my-6 text-right">
+            <a href="{% url 'voter:voter' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Add new voter
+            </a>
+            <a href="{% url 'voter:report-voter' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+                Generate Report
+            </a>
+        </div>
+
+        <table class="w-full whitespace-no-wrap">
+            <thead>
+                <tr class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-500 dark:bg-gray-800">
+                    <th class="px-4 py-3">Cedula</th>
+                    <th class="px-4 py-3">Nombre Completo</th>
+                    <th class="px-4 py-3">Barrio</th>
+                    <th class="px-4 py-3">Punto de Votacion</th>    
+                    <th class="px-4 py-3">Numero Telf</th>
+                    <th class="px-4 py-3">E-mail</th>
+                    <th class="px-4 py-3">Coordinador</th>
+                    <th class="px-4 py-3">Acciones</th>
+                </tr>
+            </thead>
+            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                {% for voter in voters  %}
+                <tr class="text-gray-700 dark:text-gray-400 text-center">
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.nuip }}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.fullName }}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.quarter }}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.votingPoint }}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.numberPhone }}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.email }}
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        {{ voter.coordinator }}
+                    </td>
+                    <td class="px-4 py-3 flex justify-around">
+                        <a href="{% url 'voter:voter-edit' voter.id %}" class="bg-black-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">
+                            Edit
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock content %}

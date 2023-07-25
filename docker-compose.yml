@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  backend:
+    container_name: sisventa
+    build: . 
+    volumes:
+      - .:/app
+    ports:
+      - 8000:8000
+  db:
+    image: postgres
+    container_name: db
+    restart: always
+    environment:
+      POSTGRES_DB: prueba2
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Atena12..
+    ports:
+      - 5432:5432
+    volumes:
+      - .dbdata:/var/lib/postgresql
