@@ -15,18 +15,17 @@
         <table class="w-full whitespace-no-wrap">
             <thead>
                 <tr class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-500 dark:bg-gray-800">
-                    <th class="px-4 py-3">Cedula</th>
+                    <th class="px-4 py-3">Numero de Documento</th>
                     <th class="px-4 py-3">Nombre Completo</th>
                     <th class="px-4 py-3">Barrio</th>
                     <th class="px-4 py-3">Punto de Votacion</th>    
                     <th class="px-4 py-3">Numero Telf</th>
-                    <th class="px-4 py-3">E-mail</th>
                     <th class="px-4 py-3">Coordinador</th>
                     <th class="px-4 py-3">Acciones</th>
                 </tr>
             </thead>
             <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                {% for voter in voters  %}
+                {% for voter in page_obj  %}
                 <tr class="text-gray-700 dark:text-gray-400 text-center">
                     <td class="px-4 py-3 text-sm">
                         {{ voter.nuip }}
@@ -43,9 +42,7 @@
                     <td class="px-4 py-3 text-sm">
                         {{ voter.numberPhone }}
                     </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.email }}
-                    </td>
+
                     <td class="px-4 py-3 text-sm">
                         {{ voter.coordinator }}
                     </td>
@@ -58,6 +55,19 @@
                 {% endfor %}
             </tbody>
         </table>
+        <nav class="block py-2 px-4 text-center bg-white my-2">
+            {% if page_obj.has_previous %}
+                <a href="?page=1" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Primero</a>
+                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Anterior</a>
+            {% endif %}
+            <span class="px-3 py-2 bg-blue-200 text-blue-800 rounded">{{ page_obj.number }}</span>
+            <span class="px-3 py-2 bg-blue-200 text-blue-800 rounded">de</span>
+            <span class="px-3 py-2 bg-blue-200 text-blue-800 rounded">{{ page_obj.paginator.num_pages }}</span>
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Siguiente</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Último</a>
+            {% endif %}
+        </nav>
     </div>
 </div>
 {% endblock content %}

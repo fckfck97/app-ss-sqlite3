@@ -1,59 +1,20 @@
-from django.views import View
-from django.contrib.auth.mixins import  LoginRequiredMixin
-from django.views.generic.edit import UpdateView
-from django.views.generic.list import ListView
-from django.shortcuts import render, redirect, get_object_or_404
-from django.urls import reverse
 from django.contrib import messages 
-from django.core.exceptions import ValidationError
+from django.contrib.auth.mixins import  LoginRequiredMixin
+from django.shortcuts import redirect, render
+from django.views import View
+from django.views.generic import ListView
+from django.utils import timezone
 from .forms import VotersForm
 from .models import Voter
-from django.utils import timezone
 
-class HomeView(View):
-    template_name ='base.html'
-    
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
-    
-class VoterListView(LoginRequiredMixin,ListView):
-    model = Voter
-    template_name = "voters_list.html"
-    context_object_name = "voters" 
-    
-    def get_queryset(self):
-        return Voter.objects.filter(coordinator=self.request.user)
-
-class VotersFormView(LoginRequiredMixin, View):
-    template_name = 'voters.html'
-
-    def get(self, request, *args, **kwargs):
-        form = VotersForm()
-        return render(request, self.template_name, {'form':form})
-
-    def post(self, request):
-        form = VotersForm(request.POST, request.FILES)
-        
+class CreateUpdateMixin():
+    def process_form(self, request, form, instance=None):
         if form.is_valid():
-            nuip = form.cleaned_data.get('nuip')
-            fullName = form.cleaned_data.get('fullName')
-            quarter = form.cleaned_data.get('quarter')
-            votingPoint = form.cleaned_data.get('votingPoint')
-            numberPhone = form.cleaned_data.get('numberPhone')
-            email = form.cleaned_data.get('email')
-            
-            voter = Voter(
-                nuip=nuip,
-                fullName=fullName,
-                quarter=quarter,
-                votingPoint=votingPoint,
-                numberPhone=numberPhone,
-                email=email,
-                coordinator=request.user,
-            )
-            voter.save()
-
-            messages.success(request, 'Votante Registrado con éxito')
+            form.instance.coordinator = request.user
+            if instance:
+                form.instance.id = instance.id
+            form.save()
+            messages.success(request, f'Votante {"actualizado" if instance else "registrado"} con éxito')
             return redirect('voter:voter-list')
         else:
             for field, errors in form.errors.items():
@@ -61,11 +22,36 @@ class VotersFormView(LoginRequiredMixin, View):
                     if "already exists" in error:
                         error = "Ya existe un Votante registrado con esa Cedula."
                     messages.error(request, f"{error}")
-
         
         return render(request, self.template_name, {'form': form})
+
+class HomeView(View):
+    template_name ='dash.html'
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name)
     
-class VotersUpdateView(LoginRequiredMixin, View):
+class VoterListView(LoginRequiredMixin, ListView):
+    model = Voter
+    context_object_name = 'voters'
+    template_name = 'voters_list.html'
+    paginate_by = 5
+
+    def get_queryset(self):
+        return Voter.objects.filter(coordinator=self.request.user)
+
+class VotersFormView(LoginRequiredMixin, View, CreateUpdateMixin):
+    template_name = 'voters.html'
+    form_class = VotersForm
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        form = self.form_class(request.POST, request.FILES)
+        return self.process_form(request, form)
+
+class VotersUpdateView(LoginRequiredMixin, View, CreateUpdateMixin):
     template_name="votersEdit.html"
     form_class=VotersForm
 
@@ -77,28 +63,12 @@ class VotersUpdateView(LoginRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         voter = Voter.objects.get(pk=kwargs['pk'])
         form = self.form_class(request.POST, request.FILES, instance=voter)
-
-        if 'voter_edits' in request.session and request.session['voter_edits_date'] == timezone.now().date().isoformat():
-            if request.session['voter_edits'] >= 3:
-                messages.error(request, 'Has llegado al límite de ediciones diarias.')
-                return redirect('voter:voter-list')
-        else:
+        if 'voter_edits' not in request.session or request.session['voter_edits_date'] != timezone.now().date().isoformat():
             request.session['voter_edits'] = 0
             request.session['voter_edits_date'] = timezone.now().date().isoformat()
 
-        if form.is_valid():
-            form.save()
+        if request.session['voter_edits'] < 3:
+            return self.process_form(request, form, instance=voter)
 
-            request.session['voter_edits'] += 1 
-
-            messages.success(request, 'Votante actualizado con éxito')
-            return redirect('voter:voter-list')
-
-        else:
-            for field, errors in form.errors.items():
-                for error in errors:
-                    if "already exists" in error:
-                        error = "Ya existe un Votante registrado con esa Cedula."
-                    messages.error(request, f"{error}")
-
-        return render(request, self.template_name, {'form': form})
+        messages.error(request, 'Has llegado al límite de ediciones diarias.')
+        return redirect('voter:voter-list')  

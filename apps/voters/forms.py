@@ -8,8 +8,10 @@ DEFAULT_ATTRS = {
     'class': 'max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
 }
 
-def create_charfield(name, placeholder):
+def create_charfield(name, placeholder, min_length=None, max_length=None):
     return forms.CharField(
+        min_length=min_length,
+        max_length=max_length,
         widget=forms.TextInput(attrs={
             **DEFAULT_ATTRS, 'placeholder': placeholder
         }),
@@ -25,22 +27,19 @@ class VotersForm(forms.ModelForm):
 
     typeDocument = forms.ChoiceField(choices=DOCUMENT_TYPES, widget=forms.Select(attrs=DEFAULT_ATTRS), required=True) 
 
-    nuip = create_charfield('nuip', 'Ingrese el Numero de Identidad')
+    nuip = create_charfield('nuip', 'Ingrese el Numero de Identidad', min_length=7, max_length=10)
 
     fullName = create_charfield('fullName', 'Ingrese el Nombre completo')
 
     quarter = create_charfield('quarter', 'Ingrese el Barrio')
 
-    address = forms.CharField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Direccion (Opcional)'}),
-    required=False)
+    address = forms.CharField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Direccion (Opcional)'}),max_length=150,required=False)
     
-    numberPhone = create_charfield('numberPhone', '3111234567')
+    numberPhone = create_charfield('numberPhone', '3111234567', min_length=10, max_length=10)
 
-    votingPoint = forms.ModelChoiceField(queryset=VotingPoint.objects.all(),empty_label="Selecciona un punto de votación",widget=Select2Widget(attrs=DEFAULT_ATTRS),required=True)  
+    votingPoint = forms.ModelChoiceField(queryset=VotingPoint.objects.all(),empty_label="Selecciona un punto de votación", widget=Select2Widget(attrs=DEFAULT_ATTRS),required=True)  
 
-    email = forms.EmailField(widget=forms.EmailInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Correo Electrónico'}),required=True)
-
-
+    email = forms.EmailField(widget=forms.EmailInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Correo Electrónico'}), required=True)
 
     def clean_fields(self):
         super().clean_fields()
@@ -50,8 +49,10 @@ class VotersForm(forms.ModelForm):
             self.add_error('typeDocument', "Por favor selecciona un tipo de documento valido.")
             
         nuip = self.cleaned_data.get('nuip')
-        if len(nuip) < 7 or len(nuip) > 10:
-            self.add_error('nuip', "La Cedula debe tener un mínimo de 7 y un máximo de 10 dígitos.")
+        if not nuip.isdigit():
+            self.add_error('nuip', "El Numero de identidad debe contener únicamente dígitos numéricos.")
+        elif len(nuip) < 7 or len(nuip) > 10:
+            self.add_error('nuip', "El Numero de identidad debe tener un mínimo de 7 y un máximo de 10 dígitos.")
         
         numberPhone = self.cleaned_data.get('numberPhone')
         if len(str(numberPhone)) != 10 or not str(numberPhone).startswith('3'):
