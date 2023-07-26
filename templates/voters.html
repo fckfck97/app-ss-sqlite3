@@ -11,8 +11,13 @@
                             <form class="form-horizontal dark:text-dark-txt" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="relative">
+                                <label for="typeDocument" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Tipo de Documento
+                                </label>
+                                    {{form.typeDocument}}
+
                                 <label for="nuip" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
-                                    Cedula de Identidad
+                                    Numero de Identidad
                                 </label>
                                     {{form.nuip}}
 
@@ -26,6 +31,11 @@
                                 </label>
                                     {{form.quarter}}
                                 
+                                <label for="address" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Direccion
+                                </label>
+                                    {{form.address}}
+                                
                                 <label for="votingPoint" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     Punto de Votacion
                                 </label>
@@ -35,22 +45,19 @@
                                     Numero Telefonico
                                 </label>
                                     {{form.numberPhone}}
-                                        
+
                                 <label for="email" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                         E-mail
                                 </label>
                                         {{form.email}}
 
-                                
                                 <div class="control-group">
                                     <div class="controls">
-                                        
                                         <button type="submit" class="mt-4 inline-flex float-right items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded dark:text-dark-txt text-indigo-700 dark:bg-dark-third bg-indigo-100 dark:hover:bg-dark-third hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-dark-third focus:ring-indigo-500">
                                         Save
                                         </button>
                                     </div>
                                 </div>
-
                                 </div>
                             </form>
                         </div>
@@ -62,7 +69,7 @@
 </main>
 <script>
     $(document).ready(function() {
-        $('.django-select2').djangoSelect2();
+        $('.votingPoint').djangoSelect2();
     });
 </script>
 {% endblock content %}

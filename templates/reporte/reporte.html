@@ -54,6 +54,7 @@
                         <th>Numero de Telf</th>
                         <th>E-mail</th>
                         <th>Registrado</th>
+                        <th>Modificado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +67,11 @@
                         <td>{{ item.numberPhone }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.created|date:"d-m-Y" }}</td>
+                        {% if item.modified %}
+                        <td>{{ item.modified|date:"d-m-Y" }}</td>
+                        {% else %}
+                        <td>S/N</td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                 </tbody>

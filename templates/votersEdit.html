@@ -11,39 +11,48 @@
                             <form class="form-horizontal dark:text-dark-txt" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="relative">
+                                <label for="typeDocument" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Tipo de Documento
+                                </label>
+                                    {{form.typeDocument}}
+                                    
                                 <label for="nuip" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     Cedula de Identidad
                                 </label>
                                     {{form.nuip}}
 
-                                <label for="name" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                <label for="fullName" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     Nombre Completo
                                 </label>
                                     {{form.fullName}}
 
-                                <label for="name" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                <label for="quarter" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     Barrio
                                 </label>
                                     {{form.quarter}}
+
+                                <label for="address" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                    Direccion
+                                </label>
+                                    {{form.address}}
                                 
-                                <label for="name" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
+                                <label for="votingPoint" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     Punto de Votacion
                                 </label>
                                     {{form.votingPoint}}
-                                    
+
                                 <label for="numberPhone" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     Numero Telefonico
                                 </label>
                                     {{form.numberPhone}}
-                                            
+
                                 <label for="email" class="block text-sm font-medium dark:text-dark-txt text-gray-700">
                                     E-mail
                                 </label>
                                     {{form.email}}
-                                
+
                                 <div class="control-group">
                                     <div class="controls">
-                                        
                                         <button type="submit" class="mt-4 inline-flex float-right items-center px-2.5 py-1.5 border border-transparent text-xs font-medium rounded dark:text-dark-txt text-indigo-700 dark:bg-dark-third bg-indigo-100 dark:hover:bg-dark-third hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-dark-third focus:ring-indigo-500">
                                         Save
                                         </button>
@@ -59,4 +68,9 @@
         </div>
     </div>
 </main>
+<script>
+    $(document).ready(function() {
+        $('.votingPoint').djangoSelect2();
+    });
+</script>
 {% endblock content %}

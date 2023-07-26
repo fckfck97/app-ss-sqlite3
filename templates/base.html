@@ -7,130 +7,315 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="shortcut icon" href="{% static 'img/logo.png' %}" type="image/x-icon">
-    <link href="{% static 'img/logo.png' %}" rel="apple-touch-icon">
-    {% comment %} django select {% endcomment %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+    
+    <link rel="shortcut icon" href="" type="image/x-icon">
+    <link href="" rel="apple-touch-icon">
+
 
     {% tailwind_css %}
-    
     <!--Alpine JS-->
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <!--Boxicons-->
     <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap">
 
-    <meta name="author" content="ASPAI">
-    <title>ASPAI | SS APP</title>
+<style>
+
+    .ingresar {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+        }
+        .show-ingresar {
+      opacity: 1;
+      visibility: visible;
+    }
+    .eslogan {
+        font-family: 'Roboto', sans-serif; /* Aquí usamos la fuente Roboto */
+
+        color: #ffffff; /* Cambiamos el color del texto a blanco */
+        text-align: center; /* Centramos el texto horizontalmente */
+        line-height: 1.5; /* Ajustamos el espaciado entre líneas */
+        max-width: 600px; /* Limitamos el ancho del texto para que no ocupe todo el ancho de la pantalla */
+        margin: 0 auto; 
+
+        font-size: 1.5rem; /* Tamaño de la fuente */
+        font-weight: 700; /* Grosor de la fuente (bold) */
+        margin-top: 1rem; /* Ajustamos el margen superior */
+        opacity: 0;
+        animation: fade-in 1s forwards;
+        animation-delay: 2s; /* Retraso de 2 segundos para la animación del texto */
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+    }
+
+    .logo-zoom-in {
+      animation: logoZoomIn 1s ease;
+    }
+
+    @keyframes logoZoomIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+        /* Estilo para el primer slide con gradiente */
+        section:first-child {
+            position: relative;
+    background: linear-gradient(135deg, #6792EB, #535CD4);
+    margin-bottom: -1px; /* Eliminamos el margen inferior para que se mezcle con el segundo slide */
+  }
+  section:first-child::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: linear-gradient(135deg, #6792EB, #535CD4);
+  } 
+  .slide-2 {
+    background: linear-gradient(135deg, #6792EB, #535CD4); /* Mismo gradiente que el primer slide */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -20px;
+  }
+  @keyframes zoom-in {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  /* Animación de aparición para el texto */
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  /* Retraso de 2 segundos para la animación del texto */
+  .animate-delay-2s {
+    animation-delay: 10s;
+  }
+
+  /* Asegurarse de que los elementos mantengan su estado final después de las animaciones */
+  .animate-zoom-in {
+    animation: zoom-in 1s forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 5s forwards;
+  }
+  .text-white {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para el texto */
+  }
+
+
+  .custom-button-login {
+    padding-left: 5.2rem;
+    padding-right: 5.2rem;
+    margin-bottom: 1rem;
+  }
+  .custom-button-signup {
+    padding-left: 3.8rem;
+    padding-right: 3.8rem;
+    margin-bottom: 1rem;
+  }
+  .custom-button-instructivo {
+    padding-left: 3.7rem;
+    padding-right: 3.7rem;
+    margin-bottom: 1rem;
+  }
+</style>
+
+
+
+    <meta name="author" content="Social System">
+    <title>Social System</title>
     <meta name="description" content="">
 
+    
 </head>
 {% if messages %}
 {% include 'messages.html' %}
 {% endif %}
-<body>
-  <header class="sticky top-0 bg-base-100 shadow-md z-10 rounded-b-md">
-    <div class="container mx-auto px-6 py-3 md:flex md:justify-between md:items-center" x-data="{ isOpen: false }">
-        <div class="flex justify-between items-center">
-            <div>
-                <a href="/" class="text-xl font-bold text-gray-800 flex items-center">
-                    <img src="{% static 'img/logo.png' %}" alt="Creative Ferrets logo" class="h-5 w-5 mr-2">
-                    <span class="text-black-700">ASPAI | SS APP</span>
-                </a>
-            </div>
-
-            <!-- Mobile menu button -->
-            <div class="flex md:hidden">
-                <button @click="isOpen = !isOpen" type="button" class="text-gray-500 hover:text-gray-600 outline-none focus:outline-none">
-                    <span class="sr-only">Toggle Menu</span>
-                    <svg viewBox="0 0 24 24" class="w-6 h-6 fill-current">
-                        <path fill-rule="evenodd" d="M4 5h16a1 1 0 010 2H4a1 1 0 110-2zm0 6h16a1 1 0 010 2H4a1 1 0 110-2zm0 6h16a1 1 0 010 2H4a1 1 0 110-2z"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <!-- Mobile Menu open: "block", Menu closed: "hidden" -->
-            <div class="md:hidden" x-show="isOpen">
-                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-                  <a href="#inicio" class="text-sm text-gray-700">Inicio</a>
-                  {% if not user.is_authenticated %}
-                      <a href="{% url 'account_login' %}" class="text-sm text-gray-700">Ingresa</a>
-                  {% else %}
-                      <a href="#" class="text-sm text-gray-700">Perfil</a>
-                      <a href="{% url 'account_logout' %}" class="text-sm text-gray-700">Salir</a>
-                  {% endif %}
-                </div>
-            </div>
-        </div>
-
-        <!-- Menu -->
-        <div class="hidden md:flex md:items-center md:justify-between">
-            <div class="flex space-x-7">
-                <a href="#inicio" class="text-sm text-gray-700">Inicio</a>
-                {% if not user.is_authenticated %}
-                    <a href="{% url 'account_login' %}" class="text-sm text-gray-700">Ingresa</a>
-                {% else %}
-                    <a href="#" class="text-sm text-gray-700">Perfil</a>
-                    <a href="{% url 'account_logout' %}" class="text-sm text-gray-700">Salir</a>
-                {% endif %}
-            </div>
-        </div>
+<body class="flex flex-col justify-center items-center min-h-screen bg-base-200">
+ 
+{% block content %}
+{% if user.is_authenticated %}
+<main class="container mx-auto px-4 py-6 md:py-16">
+    <div class="md:flex md:flex-col md:items-center">
+      <!-- Texto centrado verticalmente -->
+      <div class="md:w-1/2 px-4 text-center">
+        <!-- <p class="mt-4 text-xl text-purple-900">El app ideal, para mantener todos sus usuarios registrados.</p> -->
+     
+        <a href="{% url 'voter:voter-list' %}" class="mt-8 w-full md:w-auto text-center border border-purple-500 text-purple-500 hover:text-white hover:bg-purple-500 py-3 px-6 rounded-md">Ver Votantes</a>
+      </div>
     </div>
-  </header>
-
-    {% block content %}
-    <main>
-      <section class="min-h-screen bg-base-100" id="inicio">
-          <div class="container mx-auto flex flex-col md:flex-row items-center justify-center px-4 py-6 md:py-16">
-              <img src="{% static 'img/1.jpg' %}" class="w-full md:w-1/2 max-w-2xl rounded-lg shadow-lg"/>
-              <div class="md:w-1/2 px-4 md:pl-8">
-                  <h1 class="text-5xl font-extrabold text-orange-900">Nacho</h1>
-                  <p class="mt-4 text-xl">El app ideal, para mantener todos sus usuarios registrados.</p>
-                  {% if user.is_authenticated %}
-                  <a href="{% url 'voter:voter-list' %}" class="mt-8 w-full md:w-auto text-center border border-purple-500 text-purple-500 hover:text-white hover:bg-purple-500 py-3 px-6 rounded-md">Ver Votantes</a>
-                  {% endif %}
-              </div>
-          </div>
-        </section>
   </main>
-    {% endblock content %}
+{% else %}
+<!-- Slide 1: Logo y texto -->
+<section x-data="{ showButton: false }" class="flex flex-col justify-center items-center h-screen w-full bg-blue-500">
+    <div class="p-6">
+        <div class="animate-zoom-in">
+            <img @click="showButton = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 max-w-2xl mx-auto md:mx-0 opacity-1 cursor-pointer" alt="YL Logo" />
+        </div>
+        <p class="eslogan text-white text-center mt-8">El app ideal, para mantener a todos sus usuarios registrados.</p>
 
-<footer class="bg-base-100 text-base-content py-10 md:py-16 px-4 md:px-8">
-      <div class="container mx-auto flex flex-wrap md:flex-nowrap justify-between">
-          <div class="w-full md:w-auto mb-8 md:mb-0">
-              <img src="{% static 'assets/img/yl-logo.svg' %}" alt="ASPAI logo">
-              <p class="mt-4">ASPAI Copyright © 2023<br/>Todos los derechos reservados</p>
-          </div>
-          <div class="w-full md:w-auto mb-8 md:mb-0">
-              <span class="font-bold">Empresa</span>
-              <ul>
-                  <li><a href="#servicios" class="text-purple-500 hover:underline">Servicios</a></li>
-                  <li><a href="#plan" class="text-purple-500 hover:underline">Plan</a></li>
-                  <li><a href="#contacto" class="text-purple-500 hover:underline">Contacto</a></li>
-              </ul>
-          </div>
-          <div class="w-full md:w-auto mb-8 md:mb-0">
-              <span class="font-bold">Legal</span>
-              <ul>
-                  <li><a href="./pages/legal/terms-and-conditions.html" class="text-purple-500 hover:underline" rel="nofollow">Términos de uso</a></li>
-                  <li><a href="./pages/legal/privacy-policy.html" class="text-purple-500 hover:underline" rel="nofollow">Política de privacidad</a></li>
-                  <li><a href="./pages/legal/cookies-policy.html" class="text-purple-500 hover:underline" rel="nofollow">Política de cookies</a></li>
-              </ul>
-          </div>
-          <div class="w-full md:w-auto">
-              <span class="font-bold">Contacto</span>
-              <p class="mt-4 flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-at mr-2" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                      <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-                    <path d="M16 12v1.5a2.5 2.5 0 0 0 5 0v-1.5a9 9 0 1 0 -5.5 8.28"></path>
-                </svg>
-                <a href="mailto:info@youlink.creativeferrets.com" class="text-purple-800 hover:underline">info@aspai.com</a>
-            </p>
-            <!-- Social media links go here -->
+        <div class="mt-6 text-center">
+            <!-- Aquí aplicamos el estilo del botón con un buen contenedor y más largo en los lados -->
+            <a href="{% url 'account_login' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-3xl py-3 px-8 rounded-md border border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-0 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Ingresa</a>
+
+          
+            <!-- Botón 3 -->
+            <a href="{% url 'account_signup' %}" class="custom-button-instructivo inline-block bg-transparent text-white font-bold text-3xl py-3 px-8 rounded-md border border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-0 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Instructivo
+            </a>
         </div>
     </div>
-</footer>
-</body>
+</section>
+{% endif %}
+{% endblock content %}
+
+    <!-- Slide 2: Contenido principal -->
+    <!-- Slide 2: Contenido principal y footer -->
+<section class="slide-2 flex flex-col items-center h-screen w-full">
+
+  
+    <!-- Footer -->
+    <footer class="w-full">
+        <div class="footer-content container mx-auto">
+        <div class="footer-logo">
+          <img src="{% static 'assets/img/yl-logo.svg' %}" alt="Social System logo">
+          <p class="text-white">Social System © 2023<br>Todos los derechos reservados</p>
+        </div>
+  
+        <div>
+          <h3 class="text-white">Empresa</h3>
+          <ul>
+            <li><a href="#servicios">Servicios</a></li>
+            <li><a href="#plan">Plan</a></li>
+            <li><a href="#contacto">Contacto</a></li>
+          </ul>
+        </div>
+  
+        <div>
+          <h3 class="text-white">Legal</h3>
+          <ul>
+            <li><a href="./pages/legal/terms-and-conditions.html">Términos de uso</a></li>
+            <li><a href="./pages/legal/privacy-policy.html">Política de privacidad</a></li>
+            <li><a href="./pages/legal/cookies-policy.html">Política de cookies</a></li>
+          </ul>
+        </div>
+  
+        <div>
+          <h3 class="text-white">Contacto</h3>
+          <p class="mt-2">info@SocialSystem.com</p>
+          <!-- Aquí puedes agregar tus iconos de redes sociales -->
+        </div>
+      </div>
+    </footer>
+</section>
+  </body>
 </html>
+
+<style>
+    /* Estilos generales del footer */
+    
+  
+    /* Estilos para el texto del footer */
+    .text-white {
+      color: #ffffff;
+    }
+  
+    /* Estilos para los enlaces del footer */
+    a {
+      color: #ffffff;
+      transition: opacity 0.3s ease;
+    }
+  
+    a:hover {
+      opacity: 0.8;
+    }
+  
+    /* Estilos para la imagen del logo */
+    .w-32 {
+      width: 20rem;
+    }
+  
+    
+    /* Estilos para el espaciado de los elementos */
+    .space-y-2 > * {
+      margin-top: 0.5rem;
+    }
+  
+    .space-y-2 > *:last-child {
+      margin-bottom: 0.5rem;
+    }
+  
+    /* Estilos para el segundo slide */
+ 
+  
+    .footer-content {
+      padding: 2rem 0; /* Ajustamos el espaciado superior e inferior */
+      width: 100%;
+      color: #ffffff;
+      text-align: center;
+    }
+  
+    .footer-content p {
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+  
+    .footer-content ul {
+      list-style: none;
+      padding-left: 0;
+    }
+  
+    .footer-content ul li {
+      margin-bottom: 1rem;
+    }
+  
+    .footer-content ul li a {
+      font-size: 0.9rem;
+    }
+  
+    .footer-content h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+  
+    .footer-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* margin-bottom: 2rem; Eliminamos el margen inferior */
+    }
+  
+    .footer-logo img {
+      width: 4rem;
+      margin-bottom: 1rem;
+    }
+  </style>
