@@ -1,13 +1,4 @@
-from django.contrib import messages
-from django.shortcuts import redirect, render
-from django.utils.dateparse import parse_date
-from datetime import timedelta
-from django.db.models import Sum
-# from django.utils.dateparse import parse_date
-# from datetime import timedelta
-
 from .models import Voter
-
 from django.contrib import messages
 from django.shortcuts import render, redirect
 
