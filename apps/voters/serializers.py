@@ -1,22 +1,12 @@
 from rest_framework import serializers
-from .models import Voter, VotingPoint, User
-
-class VotingPointSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = VotingPoint
-        fields = ('name',)  # asumiendo que VotingPoint tiene un campo llamado 'name'
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ('username',)  # asumiendo que User tiene un campo llamado 'username'
+from .models import Voter
 
 class VoterSerializer(serializers.ModelSerializer):
-    voting_point = VotingPointSerializer(read_only=True)
-    coordinator = UserSerializer(read_only=True)
+    voting_point = serializers.StringRelatedField() # Esto usa el metod __str__ del objeto relacionado
+    coordinator = serializers.StringRelatedField()  # Lo mismo aquí
     created = serializers.DateTimeField(format="%d-%m-%Y %I:%M %p")
     modified = serializers.DateField(format="%d-%m-%Y")  # asumiendo que solo quieres la fecha
 
     class Meta:
         model = Voter
-        fields = '__all__'
+        fields = ['document_type', 'nuip', 'full_name', 'quarter', 'commune','voting_point', 'address', 'phone', 'email', 'coordinator', 'created', 'modified']
