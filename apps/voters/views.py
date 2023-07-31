@@ -6,7 +6,13 @@ from django.views.generic import ListView
 from django.utils import timezone
 from .forms import VotersForm
 from .models import Voter
+from rest_framework import generics
+from .serializers import VoterSerializer
 
+class VoterListCreate(generics.ListCreateAPIView):
+    queryset = Voter.objects.all()
+    serializer_class = VoterSerializer
+    
 class CreateUpdateMixin():
     def process_form(self, request, form, instance=None):
         if form.is_valid():
