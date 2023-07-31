@@ -1,0 +1,160 @@
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+}
+
+    .ingresar {
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+        }
+        .show-ingresar {
+      opacity: 1;
+      visibility: visible;
+    }
+    .eslogan {
+        font-family: 'Roboto', sans-serif; /* Aquí usamos la fuente Roboto */
+
+        color: #ffffff; /* Cambiamos el color del texto a blanco */
+        text-align: center; /* Centramos el texto horizontalmente */
+        line-height: 1.5; /* Ajustamos el espaciado entre líneas */
+        max-width: 600px; /* Limitamos el ancho del texto para que no ocupe todo el ancho de la pantalla */
+        margin: 0 auto; 
+
+        font-size: 1.5rem; /* Tamaño de la fuente */
+        font-weight: 700; /* Grosor de la fuente (bold) */
+        margin-top: 1rem; /* Ajustamos el margen superior */
+        opacity: 0;
+        animation: fade-in 1s forwards;
+        animation-delay: 2s; /* Retraso de 2 segundos para la animación del texto */
+        visibility: hidden;
+        transition: opacity 0.3s ease;
+    }
+
+    .logo-zoom-in {
+      animation: logoZoomIn 1s ease;
+    }
+
+    @keyframes logoZoomIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    section:first-child {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    
+    section:first-child::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 0;
+      width: 100%;
+      height: 0; /* Cambiamos la altura a 0 para eliminar el borde blanco superior */
+      background: linear-gradient(135deg, #6792EB, #535CD4);
+      
+    }
+    
+    
+    
+  .slide-2 {
+    background: linear-gradient(135deg, #6792EB, #535CD4); /* Mismo gradiente que el primer slide */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: -20px;
+    
+  }
+  @keyframes zoom-in {
+    0% {
+      transform: scale(0);
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  /* Animación de aparición para el texto */
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+      visibility: hidden;
+    }
+    100% {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  /* Retraso de 2 segundos para la animación del texto */
+  .animate-delay-2s {
+    animation-delay: 10s;
+  }
+
+  /* Asegurarse de que los elementos mantengan su estado final después de las animaciones */
+  .animate-zoom-in {
+    animation: zoom-in 1s forwards;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 5s forwards;
+  }
+  .text-white {
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); /* Sombra para el texto */
+  }
+
+
+  .custom-button-login {
+    padding-left: 5.2rem;
+    padding-right: 5.2rem;
+    margin-bottom: 1rem;
+  }
+  .custom-button-signup {
+    padding-left: 3.8rem;
+    padding-right: 3.8rem;
+    margin-bottom: 1rem;
+  }
+  .custom-button-instructivo {
+    padding-left: 3.7rem;
+    padding-right: 3.7rem;
+    margin-bottom: 1rem;
+  }
+
+ body {
+  background: linear-gradient(135deg, #6792EB, #535CD4);
+  margin: 0;
+  padding: 0;
+  }
+
+  nav {
+    background-color: white;
+  }
+  
+  .select-container {
+    display: inline-block;
+    position: relative;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 1rem;
+}
