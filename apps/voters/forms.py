@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Voter, VotingPoint
+from .models import Voter, VotingPoint, Quarters
 from django_select2.forms import Select2Widget
 
 DEFAULT_ATTRS = {
@@ -31,7 +31,7 @@ class VotersForm(forms.ModelForm):
 
     fullName = create_charfield('fullName', 'Ingrese el Nombre completo')
 
-    quarter = create_charfield('quarter', 'Ingrese el Barrio')
+    quarter = quarter = forms.ModelChoiceField(queryset=Quarters.objects.all().order_by('name'), empty_label="Selecciona un barrio o vereda", widget=Select2Widget(attrs=DEFAULT_ATTRS), required=True)
 
     address = forms.CharField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Direccion (Opcional)'}),max_length=150,required=False)
     

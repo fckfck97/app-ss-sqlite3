@@ -9,6 +9,21 @@ from .models import Voter
 from rest_framework import generics
 from .serializers import VoterSerializer
 
+import csv
+from .models import Quarters  # Asegurate que esta ruta al modelo sea correcta
+
+def load_data_from_csv(file_path):
+    with open(file_path, 'r') as file:
+        reader = csv.reader(file, delimiter=';')
+        next(reader)  # Omitimos la primera fila si contiene los encabezados
+        for row in reader:
+            # Asegúrate de que la fila no está vacía antes de intentar acceder a los elementos
+            if row:
+                obj, created = Quarters.objects.get_or_create(
+                    name=row[2].strip() if len(row) > 1 else "",  # Asumimos que 'name' es la segunda columna
+                    commune=row[3].strip() if len(row) > 2 else ""  # Asumimos que 'commune' es la tercera columna
+                )
+
 class VoterListCreate(generics.ListCreateAPIView):
     queryset = Voter.objects.all()
     serializer_class = VoterSerializer
@@ -34,6 +49,7 @@ class CreateUpdateMixin():
 class HomeView(View):
     template_name ='dash.html'
     def get(self, request, *args, **kwargs):
+        
         return render(request, self.template_name)
     
 class VoterListView(LoginRequiredMixin, ListView):

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth.models import User
-from import_export import resources
 
 class VotingPoint(models.Model):
     name = models.CharField(max_length=200)
@@ -11,7 +10,14 @@ class VotingPoint(models.Model):
         self.name = self.name.upper()
         return self.name
 
+class Quarters(models.Model):
+    name = models.CharField(max_length=200)
+    commune = models.CharField(max_length=50)
 
+    def __str__(self):
+        self.name = self.name.upper()
+        return self.name
+    
 DOCUMENT_TYPES = [
     ('CC','CEDULA DE CIUDADANIA'),
     ('CE','CEDULA DE EXTRANJERIA'),
@@ -21,7 +27,7 @@ class Voter(models.Model):
     document_type = models.CharField(max_length=2, choices=DOCUMENT_TYPES, default='CC')
     nuip = models.CharField(max_length=11, unique=True)
     full_name = models.CharField(max_length=100)
-    quarter = models.CharField(max_length=50)
+    quarter = models.ForeignKey(Quarters, on_delete=models.CASCADE)
     address = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=20)
     email = models.EmailField(max_length=100)
