@@ -9,25 +9,9 @@ from .models import Voter
 from rest_framework import generics
 from .serializers import VoterSerializer
 
-import pandas as pd
-from django.http import HttpResponse
-
 class VoterListCreate(generics.ListCreateAPIView):
     queryset = Voter.objects.all()
     serializer_class = VoterSerializer
-
-    def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
-        serializer = VoterSerializer(queryset, many=True)
-
-        df = pd.DataFrame(serializer.data)
-        csv_data = df.to_csv(index=False)
-
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="voters.csv"'
-        response.write(csv_data)
-
-        return response
     
 class CreateUpdateMixin():
     def process_form(self, request, form, instance=None):
