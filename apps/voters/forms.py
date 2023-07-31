@@ -25,28 +25,28 @@ class VotersForm(forms.ModelForm):
         ('CE','CEDULA DE EXTRANJERIA'),
     ]
 
-    typeDocument = forms.ChoiceField(choices=DOCUMENT_TYPES, widget=forms.Select(attrs=DEFAULT_ATTRS), required=True) 
+    document_type = forms.ChoiceField(choices=DOCUMENT_TYPES, widget=forms.Select(attrs=DEFAULT_ATTRS), required=True) 
 
     nuip = create_charfield('nuip', 'Ingrese el Numero de Identidad', min_length=7, max_length=10)
 
-    fullName = create_charfield('fullName', 'Ingrese el Nombre completo')
+    full_name = create_charfield('fullName', 'Ingrese el Nombre completo')
 
     quarter = quarter = forms.ModelChoiceField(queryset=Quarters.objects.all().order_by('name'), empty_label="Selecciona un barrio o vereda", widget=Select2Widget(attrs=DEFAULT_ATTRS), required=True)
 
     address = forms.CharField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Direccion (Opcional)'}),max_length=150,required=False)
     
-    numberPhone = create_charfield('numberPhone', '3111234567', min_length=10, max_length=10)
+    phone = create_charfield('numberPhone', '3111234567', min_length=10, max_length=10)
 
-    votingPoint = forms.ModelChoiceField(queryset=VotingPoint.objects.all(),empty_label="Selecciona un punto de votación", widget=Select2Widget(attrs=DEFAULT_ATTRS),required=True)  
+    voting_point = forms.ModelChoiceField(queryset=VotingPoint.objects.all().order_by('name'),empty_label="Selecciona un punto de votación", widget=Select2Widget(attrs=DEFAULT_ATTRS),required=True)  
 
     email = forms.EmailField(widget=forms.EmailInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Correo Electrónico'}), required=True)
 
     def clean_fields(self):
         super().clean_fields()
         
-        typeDocument = self.cleaned_data.get('typeDocument')
-        if typeDocument not in [doc_type[0] for doc_type in self.DOCUMENT_TYPES[1:]]: 
-            self.add_error('typeDocument', "Por favor selecciona un tipo de documento valido.")
+        document_type = self.cleaned_data.get('document_type')
+        if document_type not in [doc_type[0] for doc_type in self.DOCUMENT_TYPES[1:]]: 
+            self.add_error('document_type', "Por favor selecciona un tipo de documento valido.")
             
         nuip = self.cleaned_data.get('nuip')
         if not nuip.isdigit():
@@ -54,9 +54,9 @@ class VotersForm(forms.ModelForm):
         elif len(nuip) < 7 or len(nuip) > 10:
             self.add_error('nuip', "El Numero de identidad debe tener un mínimo de 7 y un máximo de 10 dígitos.")
         
-        numberPhone = self.cleaned_data.get('numberPhone')
-        if len(str(numberPhone)) != 10 or not str(numberPhone).startswith('3'):
-            self.add_error('numberPhone', "El número de telefono debe tener 10 digitos y comenzar con 3")
+        phone = self.cleaned_data.get('phone')
+        if len(str(phone)) != 10 or not str(phone).startswith('3'):
+            self.add_error('phone', "El número de telefono debe tener 10 digitos y comenzar con 3")
         
         address = self.cleaned_data.get('address')
         if address and len(address) > 150: 
@@ -64,4 +64,4 @@ class VotersForm(forms.ModelForm):
 
     class Meta:
         model = Voter
-        fields = ['typeDocument', 'nuip', 'fullName', 'quarter', 'votingPoint', 'numberPhone', 'email', 'address']
+        fields = ['document_type', 'nuip', 'full_name', 'quarter', 'voting_point', 'phone', 'email', 'address']

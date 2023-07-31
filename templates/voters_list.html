@@ -12,23 +12,11 @@
             
         </a>
     </div>
-  
-    <!-- end logo -->
-  
-    
-    <!-- end search bar -->
-  
-    <!-- login -->
     <div class="flex-initial">
-      <div class="flex justify-end items-center relative">
-       
+    <div class="flex justify-end items-center relative">
         <div class="flex mr-4 items-center">
-          
-          
         </div>
-  
-      
-      <div class="my-6 text-right px-6">
+    <div class="my-6 text-right px-6">
         <a href="{% url 'voter:voter' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Añadir
         </a>
@@ -66,19 +54,19 @@
                 {% for voter in page_obj  %}
                 <tr class="text-gray-700 dark:text-gray-400 text-center">
                     <td class="px-4 py-3 text-sm">
-                        {{ voter.nuip }}
+                        {{ voter.document_type }}-{{ voter.nuip }}
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{ voter.fullName }}
+                        {{ voter.full_name }}
                     </td>
                     <td class="px-4 py-3 text-sm">
                         {{ voter.quarter }}
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{ voter.votingPoint }}
+                        {{ voter.voting_point }}
                     </td>
                     <td class="px-4 py-3 text-sm">
-                        {{ voter.numberPhone }}
+                        {{ voter.phone }}
                     </td>
 
                     <td class="px-4 py-3 text-sm">

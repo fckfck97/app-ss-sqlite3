@@ -15,18 +15,18 @@
                             <form class="w-full max-w-sm space-y-6" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div>
-                                <label for="typeDocument" class="block text-sm font-medium text-gray-700">
+                                <label for="document_type" class="block text-sm font-medium text-gray-700">
                                     Tipo de Documento
                                 </label>
-                                    {{form.typeDocument}}
+                                    {{form.document_type}}
                                 <label for="nuip" class="block text-sm font-medium text-gray-700">
                                     Numero de Identidad
                                 </label>
                                     {{form.nuip}}
-                                <label for="name" class="block text-sm font-medium text-gray-700">
+                                <label for="full_name" class="block text-sm font-medium text-gray-700">
                                     Nombre Completo
                                 </label>
-                                    {{form.fullName}}
+                                    {{form.full_name}}
                                 <label for="quarter" class="block text-sm font-medium text-gray-700">
                                     Barrio
                                 </label>
@@ -35,14 +35,14 @@
                                     Direccion
                                 </label>
                                     {{form.address}}
-                                <label for="votingPoint" class="block text-sm font-medium text-gray-700">
+                                <label for="voting_point" class="block text-sm font-medium text-gray-700">
                                     Punto de Votacion
                                 </label>
-                                    {{form.votingPoint}}
-                                <label for="numberPhone" class="block text-sm font-medium text-gray-700">
+                                    {{form.voting_point}}
+                                <label for="phone" class="block text-sm font-medium text-gray-700">
                                     Numero Telefonico
                                 </label>
-                                    {{form.numberPhone}}
+                                    {{form.phone}}
                                 <label for="email" class="block text-sm font-medium text-gray-700">
                                         E-mail
                                 </label>
