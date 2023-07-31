@@ -4,7 +4,6 @@ django-tenants==3.5.0
 django-allauth==0.54.0
 django-tailwind==3.6.0
 django-select2==8.1.2
-django-select2-forms==3.0.0
 djangorestframework==3.14.0
 Pillow==10.0.0
 pandas==2.0.3
