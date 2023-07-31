@@ -34,7 +34,7 @@ class Voter(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateField(auto_now=True,blank=True)
     voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE, related_name='voters')  
-    coordinator = models.ForeignKey(User, on_delete=models.CASCADE)
+    coordinator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
 
     def save(self, *args, **kwargs):
         self.full_name = self.full_name.upper()

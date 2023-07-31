@@ -61,10 +61,10 @@
                     {% for item in enc %}
                     <tr>
                         <td>{{ item.nuip }}</td>
-                        <td>{{ item.fullName }}</td>
+                        <td>{{ item.full_name }}</td>
                         <td>{{ item.quarter }}</td>
-                        <td>{{ item.votingPoint }}</td>
-                        <td>{{ item.numberPhone }}</td>
+                        <td>{{ item.voting_point }}</td>
+                        <td>{{ item.phone }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.created|date:"d-m-Y" }}</td>
                         {% if item.modified %}

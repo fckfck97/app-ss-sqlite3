@@ -13,7 +13,7 @@ def reportVoter(request):
                 'enc': voters,
                 'quantity': len(voters)
             }
-            return render(request, "reporte/reporte.html", context)
+            return render(request, "reports/report.html", context)
         except Exception as e:  
                 print(e)
     else:
@@ -46,25 +46,25 @@ def reportUserParent(request):
                 'children_reports': children_reports,
             }
 
-            return render(request, "reporte/report-child.html", context)
+            return render(request, "reports/report-child.html", context)
         except Exception as e:  
             print(e)
     else:
         messages.error(request, 'Debes iniciar sesión para ver este recurso.')
     messages.error(request, 'Reporte NO Disponible Actualmente.')
-    return redirect("home")
+    return redirect("voter:home")
 
 def reportByVotingPoint(request):
     context = {}
     if request.user.is_authenticated:
         try:
-            voters = Voter.objects.values('votingPoint__name').annotate(count=models.Count('votingPoint')).order_by('-count')
+            voters = Voter.objects.values('voting_point__name').annotate(count=models.Count('voting_point')).order_by('-count')
             total_voters = voters.aggregate(count_totals=models.Sum('count'))['count_totals']
             context = {
                 'votingPoints': voters,
                 'total_voters': total_voters,
             }
-            return render(request, "reporte/reporte_votingPoint.html", context)
+            return render(request, "reports/report-votingPoint.html", context)
         except Exception as e:  
             print(e)
     else:
@@ -84,7 +84,7 @@ def reportByQuarter(request):
                 'quarters': voters,
                 'total_voters': total_voters,
             }
-            return render(request, "reporte/reporte_quarter.html", context)
+            return render(request, "reports/report-quarter.html", context)
         except Exception as e:  
             print(e)    
     else:

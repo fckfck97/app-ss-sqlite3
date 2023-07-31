@@ -10,4 +10,4 @@ class VoterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Voter
-        fields = ['document_type', 'nuip', 'full_name', 'quarter','voting_point', 'address', 'phone', 'email', 'coordinator', 'created', 'modified']
+        fields = ['id','document_type', 'nuip', 'full_name', 'quarter','voting_point', 'address', 'phone', 'email', 'coordinator', 'created', 'modified']
