@@ -6,6 +6,16 @@
  */
 
 module.exports = {
+    theme: {
+        extend: {
+          colors: {
+            darkBlue: "#2C326D",
+            darkerBlue: "#30466D",
+            lightBlue: "#BEC7FC",
+            lighterBlue: "#C0D8FC",
+          },
+        },
+      },
     content: [
         /**
          * HTML. Paths to Django template files that will contain Tailwind CSS classes.

@@ -25,13 +25,29 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.microsoft',
+
     'tailwind',
     'theme',
     'apps.voters',
 )
+
+SOCIALACCOUNT_LOGIN_ON_GET=True
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'APP': {
+            'client_id': '816348608258-3q4ub5qa5gef8bg4bskmi7rdf7rp6rt5.apps.googleusercontent.com',
+            'secret': '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',
+            'key': '',
+        }
+    }
+}
 
 
 
@@ -43,6 +59,8 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+SITE_ID = 1
 
 LOGIN_REDIRECT_URL = "/"
 ACCOUNT_LOGOUT_ON_GET = True
