@@ -1,0 +1,21 @@
+
+<html lang="es">
+  {% include 'base/head.html' %}
+  <body class="">
+      {% block navbar %}
+      {% endblock navbar %}
+      
+      {% if messages %}
+      {% include 'messages.html' %}
+      {% endif %}
+
+      {% block content %}
+      {% endblock content %}
+
+      {% block footer %}
+      {% endblock footer %}
+
+      {% block js %}
+      {% endblock js %}
+  </body>
+</html>

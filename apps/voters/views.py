@@ -6,7 +6,29 @@ from django.views.generic import ListView
 from django.utils import timezone
 from .forms import VotersForm
 from .models import Voter
+from rest_framework import generics
+from .serializers import VoterSerializer
 
+import pandas as pd
+from django.http import HttpResponse
+
+class VoterListCreate(generics.ListCreateAPIView):
+    queryset = Voter.objects.all()
+    serializer_class = VoterSerializer
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        serializer = VoterSerializer(queryset, many=True)
+
+        df = pd.DataFrame(serializer.data)
+        csv_data = df.to_csv(index=False)
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="voters.csv"'
+        response.write(csv_data)
+
+        return response
+    
 class CreateUpdateMixin():
     def process_form(self, request, form, instance=None):
         if form.is_valid():
@@ -26,6 +48,13 @@ class CreateUpdateMixin():
         return render(request, self.template_name, {'form': form})
 
 class HomeView(View):
+    template_name ='home.html'
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('voter:dashboard')
+        return render(request, self.template_name)
+
+class DashboardView(LoginRequiredMixin,View):
     template_name ='dash.html'
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)

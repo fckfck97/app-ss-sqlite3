@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Reporte de Hijos y Votantes Asociados</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.16/tailwind.min.css"
+    />
+    <style type="text/css">
+      .table {
+        min-width: 100%;
+      }
+      .table th,
+      .table td {
+        padding: 1rem;
+        text-align: center;
+        border-top: 1px solid #e5e7eb;
+      }
+      .table thead th {
+        vertical-align: middle;
+        border-bottom: 2px solid #cbd5e0;
+      }
+
+      .table tbody + tbody {
+        border-top: 2px solid #cbd5e0;
+      }
+
+      .list-group p {
+        line-height: 1.5;
+      }
+
+      .suma-total > h3 {
+        text-align: right;
+        font-size: 1.2rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mx-auto my-10">
+      <div class="bg-white w-full p-4">
+        <h4 class="text-center text-xl font-bold">
+          Reporte por Coordinador y Votantes Asociados
+        </h4>
+
+        {% if voters_count > 0 %}
+        <h5 class="text-center text-lg font-bold">
+          Jefe: {{ parent.user.username }}
+        </h5>
+        <p class="text-center text-sm">
+          Total votantes registrados: {{ voters_count }}
+        </p>
+
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th>Documento</th>
+              <th>Nombre Completo</th>
+              <th>Barrio</th>
+              <th>Punto de Votacion</th>
+              <th>Numero de Telefonico</th>
+              <th>E-mail</th>
+              <th>Registrado</th>
+              <th>Modificado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for voter in parent_voters %}
+            <tr>
+              <td>{{ voter.document_type }}-{{ voter.nuip }}</td>
+              <td>{{ voter.full_name }}</td>
+              <td>{{ voter.quarter }}</td>
+              <td>{{ voter.voting_point }}</td>
+              <td>{{ voter.phone }}</td>
+              <td>{{ voter.email }}</td>
+              <td>{{ voter.created|date:"d-m-Y" }}</td>
+              {% if voter.modified %}
+              <td>{{ voter.modified|date:"d-m-Y" }}</td>
+              {% else %}
+              <td>S/N</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %} {% for report in children_reports %}
+        <h5 class="text-center text-lg font-bold">
+          Recolector de datos : {{ report.child.user.username }}
+        </h5>
+        <p class="text-center text-sm">
+          {% if report.voters_count > 0 %}Total votantes registrados: {{ report.voters_count }}{% else %}Este recolector de datos no tiene
+          votantes registrados.{% endif %}
+        </p>
+
+        {% if report.voters_count > 0 %}
+        <table class="table mt-4">
+          <thead>
+            <tr>
+              <th>Documento</th>
+              <th>Nombre Completo</th>
+              <th>Barrio</th>
+              <th>Punto de Votacion</th>
+              <th>Numero de Telefonico</th>
+              <th>E-mail</th>
+              <th>Registrado</th>
+              <th>Modificado</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for voter in report.voters %}
+            <tr>
+              <td>{{ voter.document_type }}-{{ voter.nuip }}</td>
+              <td>{{ voter.full_name }}</td>
+              <td>{{ voter.quarter }}</td>
+              <td>{{ voter.voting_point }}</td>
+              <td>{{ voter.phone }}</td>
+              <td>{{ voter.email }}</td>
+              <td>{{ voter.created|date:"d-m-Y" }}</td>
+              {% if voter.modified %}
+              <td>{{ voter.modified|date:"d-m-Y" }}</td>
+              {% else %}
+              <td>S/N</td>
+              {% endif %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% endif %} {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>
+
+

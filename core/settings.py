@@ -31,6 +31,7 @@ INSTALLED_APPS = (
     'tailwind',
     'theme',
     'apps.voters',
+    'import_export',
 )
 
 
@@ -44,7 +45,7 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-LOGIN_REDIRECT_URL = "/"
+LOGIN_REDIRECT_URL = 'voter:dashboard'
 ACCOUNT_LOGOUT_ON_GET = True
 
 
@@ -54,7 +55,7 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-NPM_BIN_PATH = "/usr/local/bin/npm"
+NPM_BIN_PATH = r"C:\Program Files\nodejs\npm.cmd"
 
 MIDDLEWARE = [
 

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'base/base.html' %}
 
 {% block content %}
 <div class="w-full overflow-hidden rounded-lg shadow-xs mb-10">
@@ -55,7 +55,7 @@
                 {% endfor %}
             </tbody>
         </table>
-        <nav class="block py-2 px-4 text-center bg-white my-2">
+        <nav class="block py-2 px-4 text-center my-2">
             {% if page_obj.has_previous %}
                 <a href="?page=1" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Primero</a>
                 <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Anterior</a>

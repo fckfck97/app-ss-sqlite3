@@ -47,7 +47,7 @@
             <table class="table mt-4">
                 <thead>
                     <tr>
-                        <th>Cedula</th>
+                        <th>Documento</th>
                         <th>Nombre Completo</th>
                         <th>Barrio</th>
                         <th>Punto de Votacion</th>
@@ -60,11 +60,11 @@
                 <tbody>
                     {% for item in enc %}
                     <tr>
-                        <td>{{ item.nuip }}</td>
-                        <td>{{ item.fullName }}</td>
+                        <td>{{ item.document_type }}-{{ item.nuip }}</td>
+                        <td>{{ item.full_name }}</td>
                         <td>{{ item.quarter }}</td>
-                        <td>{{ item.votingPoint }}</td>
-                        <td>{{ item.numberPhone }}</td>
+                        <td>{{ item.voting_point }}</td>
+                        <td>{{ item.phone }}</td>
                         <td>{{ item.email }}</td>
                         <td>{{ item.created|date:"d-m-Y" }}</td>
                         {% if item.modified %}

@@ -4,112 +4,60 @@
 
 {% block content %}
 
-<div class="mx-auto w-full max-w-sm lg:w-96">
-  <div class="flex justify-center items-center mb-6"> <!-- Agregamos las clases "flex justify-center items-center" para centrar el contenido -->
-    <a href="{% url 'voter:home' %}">
-      <img class="h-12 w-auto" src="{% static 'assets/img/yl-logo.svg' %}" alt="">
-    </a>
-  </div>
-
-  <div class="text-center">
-    <h2 class="mt-6 text-3xl font-extrabold text-gray-900">
-      Ingresa a tu cuenta!
-    </h2>
-  </div>
-
-      <div class="mt-8">
-        <div>
-          <div>
-            <!-- <p class="text-sm font-medium text-gray-700">
-              Tambien puedes iniciar con
-            </p> -->
-
-            <div class="flex justify-center items-center">
-              <div class="bg-white rounded-lg shadow-md p-6 space-y-4">
-                <button class="w-full flex items-center justify-center bg-white hover:bg-red-600 text-red-600 py-2 px-4 rounded-full transition-colors">
-                  <img src="{% static 'assets/img/gmail.svg' %}" alt="Gmail Logo" class="w-6 h-6 mr-2">
-                  Ingresa con Gmail
-                </button>
-                <button class="w-full flex items-center justify-center bg-white hover:bg-blue-600 text-blue-600 py-2 px-4 rounded-full transition-colors">
-                  <img src="{% static 'assets/img/outlook.svg' %}" alt="Outlook Logo" class="w-6 h-6 mr-2">
-                 Ingresa con Outlook
-                </button>
-              </div>
-            </div>
-
-            
-
-              
-
-              
-
-            </div>
-          </div>
-
-          <div class="mt-6 relative">
-            <div class="absolute inset-0 flex items-center" aria-hidden="true">
-              <div class="w-full border-t border-gray-300"></div>
-            </div>
-            <div class="relative flex justify-center text-sm">
-              <span class="px-2 bg-white text-gray-500">
-                O inicia con
-              </span>
-            </div>
+<div class="hero min-h-screen bg-blue-500">
+  <div class="hero-content flex-col lg:flex-row-reverse">
+    <div class="text-center lg:text-left">
+      <h1 class="text-5xl text-white font-bold">Login now!</h1>
+      <p class="py-6 text-white">Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem quasi. In deleniti eaque aut repudiandae et a id nisi.</p>
+    </div>
+    <div class="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
+      <div class="card-body">
+        <div class="flex justify-center items-center">
+          <a href="{% url 'voter:home' %}">
+            <img class="h-12 w-auto" src="{% static 'assets/img/yl-logo.svg' %}" alt="">
+          </a>
+        </div>
+        <div class="flex justify-center items-center">
+          <div class="p-4">
+            <button class="w-full flex items-center justify-center bg-white hover:bg-red-600 hover:text-white text-red-600 py-2 px-4 rounded-full transition-colors">
+              <img src="{% static 'assets/img/gmail.svg' %}" alt="Gmail Logo" class="w-6 h-6 mr-2">
+              Ingresa con Gmail
+            </button>
+            <button class="w-full flex items-center justify-center bg-white hover:bg-blue-600 hover:text-white text-blue-600 py-2 px-4 rounded-full transition-colors">
+              <img src="{% static 'assets/img/outlook.svg' %}" alt="Outlook Logo" class="w-6 h-6 mr-2">
+              Ingresa con Outlook
+            </button>
           </div>
         </div>
-
-        <div class="mt-6">
-          <form class="space-y-6" id="login_form" method="post" action="{% url 'account_login' %}">
-            {% csrf_token %}
-            <div>
-              <label for="id_login" class="block text-sm font-medium text-gray-700">
-                Usuario
-              </label>
-              <div class="mt-1">
-                <input id="id_login" name="login" type="text" autocomplete="login" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-            </div>
-
-            <div class="space-y-1">
-              <label for="id_password" class="block text-sm font-medium text-gray-700">
-                Contraseña
-              </label>
-              <div class="mt-1">
-                <input id="id_password" name="password" type="password" autocomplete="current-password" required class="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-              </div>
-            </div>
-
-            <div class="flex items-center justify-between">
-              <div class="flex items-center">
-                <input id="id_remember" name="remember" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded">
-                <label for="id_remember" class="ml-2 block text-sm text-gray-900">
-                  Recordarme
-                </label>
-              </div>
-
-              <div class="text-sm">
-                <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500">
-                  Olvidaste tu contraseña?
-                </a>
-              </div>
-            </div>
-
-            <div>
-              <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Ingresar
-              </button>
-            </div>
-          </form>
-        </div>
+        <div class="divider">O</div>
+        <form id="login_form" method="post" action="{% url 'account_login' %}">
+          {% csrf_token %}
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Usuario</span>
+            </label>
+            <input id="id_login" name="login" type="text" autocomplete="login" class="input input-bordered" required/>
+          </div>
+          <div class="form-control">
+            <label class="label">
+              <span class="label-text">Contraseña</span>
+            </label>
+            <input id="id_password" name="password" type="password" autocomplete="current-password" class="input input-bordered" required/>
+          </div>
+          <div class="form-control mt-3">
+            <label class="cursor-pointer">
+              <input type="checkbox" class="checkbox checkbox-primary"/>
+              <span class="label-text ml-2">Recuerdame</span>
+            </label>
+          </div>
+          <div class="form-control mt-6">
+            <button class="btn btn-primary">Ingresar</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
-  <div class="hidden lg:block relative w-0 flex-1">
-    <img class="absolute inset-0 h-full w-full object-cover" src="{% static 'assets/img/og-banner.jpg' %}" alt="">
-  </div>
 </div>
-
-
 
 
 {% endblock %}

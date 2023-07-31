@@ -1,0 +1,24 @@
+{% load static %}
+{% include "base/head.html" %}
+{% include "messages.html" %}
+{% block content %}
+<main x-data="{ show: false }" class="h-screen w-screen flex justify-center items-center bg-blue-500">
+    <div class="card lg:card-side w-10/12 lg:w-1/2 lg:grid lg:grid-cols-2 shadow-2xl overflow-hidden bg-blue-500">
+      <div class="p-6">
+        <div class="flex justify-center items-center mx-auto md:mx-0 animate-zoom-in">
+          <img @click="show = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 md:mx-0 opacity-1 cursor-pointer" alt="Logo"/>
+        </div>
+        <p class="mt-4 text-center leading-relaxed animate-fade-in font-bold text-white text-2xl">
+          El app ideal, para mantener todos sus usuarios registrados.
+        </p>
+      </div>
+      <div class="p-6 flex justify-center items-center">
+        <div class="flex flex-col items-center">
+          <a href="{% url 'account_login' %}" class="btn btn-outline text-white mb-3">Ingresa</a>
+          <a href="{% url 'account_signup' %}" class="btn btn-outline text-white">Instructivo</a>
+        </div>
+      </div>
+    </div>
+</main>
+{% endblock content %}
+
