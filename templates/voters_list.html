@@ -1,16 +1,54 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-<div class="w-full overflow-hidden rounded-lg shadow-xs mb-10">
-    <div class="w-full overflow-x-auto">
-        <div class="my-6 text-right">
-            <a href="{% url 'voter:voter' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Add new voter
-            </a>
-            <a href="{% url 'voter:report-voter' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
-                Generate Report
-            </a>
+
+<nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
+    <!-- logo -->
+    <div class="inline-flex">
+        <a class="_o6689fn" href="/"
+            >    <div class="flex items-center">
+                <img class="h-12 w-auto" src="{% static 'assets/img/ssgod.svg' %}" alt="">
+            </div>
+            
+        </a>
+    </div>
+  
+    <!-- end logo -->
+  
+    
+    <!-- end search bar -->
+  
+    <!-- login -->
+    <div class="flex-initial">
+      <div class="flex justify-end items-center relative">
+       
+        <div class="flex mr-4 items-center">
+          
+          
         </div>
+  
+      
+      <div class="my-6 text-right px-6">
+        <a href="{% url 'voter:voter' %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+            Añadir
+        </a>
+        <a href="{% url 'voter:report-voter' %}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ml-4">
+            Generar
+        </a>
+    </div>
+      
+      
+      </div>
+    </div>
+    <!-- end login -->
+  </nav>
+  
+<div class="w-full overflow-hidden rounded-lg shadow-xs mb-10">
+    <div class="flex flex-col h-screen justify-between">
+       
+
+        <div class="w-full overflow-x-auto overflow-hidden rounded-lg shadow-xs flex-grow mb-10 flex flex-col justify-between">
+    
 
         <table class="w-full whitespace-no-wrap">
             <thead>
@@ -19,7 +57,7 @@
                     <th class="px-4 py-3">Nombre Completo</th>
                     <th class="px-4 py-3">Barrio</th>
                     <th class="px-4 py-3">Punto de Votacion</th>    
-                    <th class="px-4 py-3">Numero Telf</th>
+                    <th class="px-4 py-3">Telefono</th>
                     <th class="px-4 py-3">Coordinador</th>
                     <th class="px-4 py-3">Acciones</th>
                 </tr>
@@ -55,7 +93,8 @@
                 {% endfor %}
             </tbody>
         </table>
-        <nav class="block py-2 px-4 text-center bg-white my-2">
+               <nav class="block py-2 px-4 text-center bg-white mt-auto">
+
             {% if page_obj.has_previous %}
                 <a href="?page=1" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Primero</a>
                 <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Anterior</a>

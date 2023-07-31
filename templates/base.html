@@ -7,13 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    
+    <link rel="stylesheet" href="static/assets/css/s-styles.css">
+
     <link rel="shortcut icon" href="" type="image/x-icon">
     <link href="" rel="apple-touch-icon">
 
 
     {% tailwind_css %}
     <!--Alpine JS-->
+    
     <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.8.2/dist/alpine.min.js" defer></script>
     <!--Boxicons-->
@@ -34,132 +36,19 @@
 {% endif %}
 <body class="flex flex-col justify-center items-center min-h-screen bg-base-200">
 
+ 
+  
 
 {% block content %}
 {% endblock content %}
 
 
 
-
-    <!-- Slide 2: Contenido principal -->
-    <!-- Slide 2: Contenido principal y footer -->
-<section class="slide-2 flex flex-col items-center h-screen w-full">
-
   
     <!-- Footer -->
-    <footer class="w-full">
-        <div class="footer-content container mx-auto">
-        <div class="footer-logo">
-          <img src="{% static 'assets/img/yl-logo.svg' %}" alt="Social System logo">
-          <p class="text-white">Social System © 2023<br>Todos los derechos reservados</p>
-        </div>
-  
-        <div>
-          <h3 class="text-white">Empresa</h3>
-          <ul>
-            <li><a href="#servicios">Servicios</a></li>
-            <li><a href="#plan">Plan</a></li>
-            <li><a href="#contacto">Contacto</a></li>
-          </ul>
-        </div>
-  
-        <div>
-          <h3 class="text-white">Legal</h3>
-          <ul>
-            <li><a href="./pages/legal/terms-and-conditions.html">Términos de uso</a></li>
-            <li><a href="./pages/legal/privacy-policy.html">Política de privacidad</a></li>
-            <li><a href="./pages/legal/cookies-policy.html">Política de cookies</a></li>
-          </ul>
-        </div>
-  
-        <div>
-          <h3 class="text-white">Contacto</h3>
-          <p class="mt-2">info@SocialSystem.com</p>
-          <!-- Aquí puedes agregar tus iconos de redes sociales -->
-        </div>
-      </div>
-    </footer>
-</section>
-  </body>
-</html>
+    
 
-<style>
-    /* Estilos generales del footer */
-    
+
+</body>
   
-    /* Estilos para el texto del footer */
-    .text-white {
-      color: #ffffff;
-    }
-  
-    /* Estilos para los enlaces del footer */
-    a {
-      color: #ffffff;
-      transition: opacity 0.3s ease;
-    }
-  
-    a:hover {
-      opacity: 0.8;
-    }
-  
-    /* Estilos para la imagen del logo */
-    .w-32 {
-      width: 20rem;
-    }
-  
-    
-    /* Estilos para el espaciado de los elementos */
-    .space-y-2 > * {
-      margin-top: 0.5rem;
-    }
-  
-    .space-y-2 > *:last-child {
-      margin-bottom: 0.5rem;
-    }
-  
-    /* Estilos para el segundo slide */
- 
-  
-    .footer-content {
-      padding: 2rem 0; /* Ajustamos el espaciado superior e inferior */
-      width: 100%;
-      color: #ffffff;
-      text-align: center;
-    }
-  
-    .footer-content p {
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-  
-    .footer-content ul {
-      list-style: none;
-      padding-left: 0;
-    }
-  
-    .footer-content ul li {
-      margin-bottom: 1rem;
-    }
-  
-    .footer-content ul li a {
-      font-size: 0.9rem;
-    }
-  
-    .footer-content h3 {
-      font-size: 1.2rem;
-      font-weight: 600;
-      margin-bottom: 1.5rem;
-    }
-  
-    .footer-logo {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      /* margin-bottom: 2rem; Eliminamos el margen inferior */
-    }
-  
-    .footer-logo img {
-      width: 4rem;
-      margin-bottom: 1rem;
-    }
-</style>
+</html>
