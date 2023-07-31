@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import HomeView, VotersFormView, VotersUpdateView, VoterListView, VoterListCreate
+from .views import HomeView, VotersFormView, VotersUpdateView, VoterListView, VoterListCreate, ConsultAPIView
 from .reporte import reportVoter, reportUserParent, reportByQuarter, reportByVotingPoint
 app_name = 'apps.voters'
 
@@ -11,6 +11,7 @@ urlpatterns = [
     path('voter/<pk>/edit',VotersUpdateView.as_view(), name='voter-edit'),
     
     path('api/v1/voters/', VoterListCreate.as_view(), name='voters_list_create'),
+    path('api/v1/consult/', ConsultAPIView.as_view()),
     path('report',reportVoter, name="report-voter"),
     path('report/parent',reportUserParent, name="report-parent"),
     path('report/quarter', reportByQuarter, name='report-quarter'),

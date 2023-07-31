@@ -7,23 +7,33 @@ from django.utils import timezone
 from .forms import VotersForm
 from .models import Voter
 from rest_framework import generics
-from .serializers import VoterSerializer
+from .serializers import VoterSerializer, ConsultSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework import status
 
-import csv
-from .models import Quarters  # Asegurate que esta ruta al modelo sea correcta
+class ConsultAPIView(APIView):
+    # permission_classes = [permissions.IsAuthenticated]  # Solo permitir usuarios autenticados
 
-def load_data_from_csv(file_path):
-    with open(file_path, 'r') as file:
-        reader = csv.reader(file, delimiter=';')
-        next(reader)  # Omitimos la primera fila si contiene los encabezados
-        for row in reader:
-            # Asegúrate de que la fila no está vacía antes de intentar acceder a los elementos
-            if row:
-                obj, created = Quarters.objects.get_or_create(
-                    name=row[2].strip() if len(row) > 1 else "",  # Asumimos que 'name' es la segunda columna
-                    commune=row[3].strip() if len(row) > 2 else ""  # Asumimos que 'commune' es la tercera columna
-                )
+    def post(self, request):
+        nuip = request.data.get('nuip')    
 
+        try:
+            voter = Voter.objects.get(nuip=nuip)
+        except Voter.DoesNotExist:
+            return Response({'error': 'Voter no registrado'}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = ConsultSerializer(data=request.data)
+        if serializer.is_valid():
+            official_consultation = serializer.save()
+            voter.official_consultation = official_consultation
+            voter.checkout = True
+            voter.save()
+            
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
 class VoterListCreate(generics.ListCreateAPIView):
     queryset = Voter.objects.all()
     serializer_class = VoterSerializer
