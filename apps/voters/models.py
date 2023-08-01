@@ -50,7 +50,7 @@ class Voter(models.Model):
     email = models.EmailField(max_length=100, blank=True)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateField(auto_now=True,blank=True)
-    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE, related_name='voters')  
+    voting_point = models.ForeignKey(VotingPoint, on_delete=models.CASCADE, related_name='voters',blank=True)  
     coordinator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     official_consultation = models.ForeignKey(OfficialConsultation, on_delete=models.CASCADE, blank=True,null=True)
     checkout = models.BooleanField(default=False)

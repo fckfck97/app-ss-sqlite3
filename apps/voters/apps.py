@@ -7,6 +7,8 @@ class VotersConfig(AppConfig):
     name = 'apps.voters'
 
     def ready(self):
+        from .archivos import signal
+        
         self.check_and_load_quarters()
         self.check_and_load_points()
 
