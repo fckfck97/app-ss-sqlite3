@@ -1,12 +1,10 @@
 {% extends 'base/base.html' %}
 {% load static %}
-{% block content %}
-
+{% block navbar %}
 <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
-    <!-- logo -->
     <div class="inline-flex">
-        <a class="_o6689fn" href="/"
-            >    <div class="flex items-center">
+        <a class="_o6689fn" href="/">    
+            <div class="flex items-center">
                 <img class="h-12 w-auto" src="{% static 'assets/img/ssgod.svg' %}" alt="">
             </div>
             
@@ -30,16 +28,14 @@
         </div>
     </div>
     </div>
-    <!-- end login -->
 </nav>
+{% endblock navbar %}
 
+
+{% block content %}
 <div class="w-full overflow-hidden rounded-lg shadow-xs mb-10">
     <div class="flex flex-col h-screen justify-between">
-       
-
         <div class="w-full overflow-x-auto overflow-hidden rounded-lg shadow-xs flex-grow mb-10 flex flex-col justify-between">
-    
-
         <table class="w-full whitespace-no-wrap">
             <thead>
                 <tr class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-500 dark:bg-gray-800">
@@ -75,9 +71,11 @@
                         {{ voter.coordinator }}
                     </td>
                     <td class="px-4 py-3 flex justify-around">
-                        <a href="{% url 'voter:voter-edit' voter.id %}" class="bg-black-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">
-                            Edit
-                        </a>
+                        {% if not voter.checkout %}
+                            <a href="{% url 'voter:voter-edit' voter.id %}" class="bg-black-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">
+                                Edit
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
                 {% endfor %}

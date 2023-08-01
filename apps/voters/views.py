@@ -11,27 +11,32 @@ from .serializers import VoterSerializer, ConsultSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
+from .archivos.quarters import load_quarters
+from .archivos.votingpoint import load_point
 
 class ConsultAPIView(APIView):
-    # permission_classes = [permissions.IsAuthenticated]  # Solo permitir usuarios autenticados
-
-    def post(self, request):
-        nuip = request.data.get('nuip')    
-
+    
+    def post(self, request, *args, **kwargs):
+        nuip = request.data.get('nuip')
         try:
             voter = Voter.objects.get(nuip=nuip)
         except Voter.DoesNotExist:
-            return Response({'error': 'Voter no registrado'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Votante no registrado en la base de datos SS'}, status=status.HTTP_404_NOT_FOUND)
+        if voter.checkout:
+            return Response({'error': 'El votante ya esta validado'}, status=status.HTTP_400_BAD_REQUEST)
         
         serializer = ConsultSerializer(data=request.data)
+        
         if serializer.is_valid():
             official_consultation = serializer.save()
             voter.official_consultation = official_consultation
             voter.checkout = True
             voter.save()
             
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
+            return Response({
+                'success': True, 
+                'new_nuip': official_consultation.nuip
+            }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class VoterListCreate(generics.ListCreateAPIView):
