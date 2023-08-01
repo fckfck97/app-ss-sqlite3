@@ -9,7 +9,7 @@ DEFAULT_ATTRS = {
 }
 TEXTAREA_ATTRS = {
     'autocomplete': 'off',
-    'class': 'w-full border-2 border-white mt-1 text-white mb-4 max-w-lg block focus:ring-indigo-500 focus:border-gray-500 sm:max-w-xs sm:text-sm rounded-lg border-width-4'
+    'class': 'w-full border-2 bg-white border-white mt-1 mb-4 max-w-lg block focus:ring-indigo-500 focus:border-gray-500 sm:max-w-xs sm:text-sm rounded-lg border-width-4'
 }
 
 def create_charfield(name, placeholder, min_length=None, max_length=None, type='text'):
@@ -52,7 +52,7 @@ class VotersForm(forms.ModelForm):
 
     voting_point = forms.ModelChoiceField(queryset=VotingPoint.objects.all(),empty_label="Selecciona un punto de votación", widget=Select2Widget(attrs=DEFAULT_ATTRS),required=True)  
 
-    email = forms.EmailField(widget=forms.EmailInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Correo Electrónico'}), required=True)
+    email = forms.EmailField(widget=forms.EmailInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Correo Electrónico'}), required=False)
 
     def clean_fields(self):
         super().clean_fields()

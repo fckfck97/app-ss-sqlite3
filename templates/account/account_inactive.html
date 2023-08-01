@@ -2,11 +2,17 @@
 {% include "base/head.html" %}
 {% load i18n %}
 
+{% load static %} {# Cargamos la etiqueta static aquí antes de los bloques #}
+
 {% block head_title %}{% trans "Account Inactive" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Cuenta Inactiva" %}</h1>
-
-<p>{% trans "Tu cuenta esta Inactiva, espera que sea activada." %}</p>
-<a href="{% url 'voter:home' %}"> Inicio</a>
+    <body class="flex justify-center items-center h-screen" style="background-image: url('{% static 'assets/img/patron.png' %}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+        <a href="{% url 'voter:home' %}">
+            <div class="animate-zoom-in md:mx-auto text-center">
+                <img src="{% static 'assets/img/ssgod.svg' %}" class="w-32 max-w-2xl mx-auto opacity-1 cursor-pointer" alt="Logo ss" />
+            </div>
+        </a>
+        <p class="eslogan text-white text-center mt-8" style="color: black; font-weight: bold; font-size: 20px;">Tu cuenta está inactiva, espera que sea activada.</p>
+    </body>
 {% endblock %}

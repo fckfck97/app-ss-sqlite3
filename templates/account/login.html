@@ -6,9 +6,9 @@
 
 {% block content %}
 
-<body class="flex justify-center items-center h-screen" style="background-image: url('{% static 'assets/img/patron.png' %}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
+<body class="flex items-center justify-center min-h-screen" style="background-image: url('{% static 'assets/img/patron.png' %}'); background-size: cover; background-repeat: no-repeat; background-position: center;">
 
-  <div class="flex flex-col justify-center items-center h-full max-w-screen-md mx-auto">
+  <div class="flex flex-col items-center">
     <div class="w-full px-6 py-8 rounded-lg shadow-md border border-white" style="background-image: linear-gradient(to bottom, #6792EB, #535CD4); border-radius: 3.5rem;">
       <!-- Utilizamos el estilo de fondo con el gradiente de arriba a abajo -->
       <div class="flex justify-center items-center mb-8">
@@ -42,7 +42,6 @@
     <div class="hidden lg:block relative w-0 flex-1">
       <img class="absolute inset-0 h-full w-full object-cover" src="{% static 'assets/img/og-banner.jpg' %}" alt="">
     </div>
-
   </div>
 
 </body>

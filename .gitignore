@@ -2,3 +2,7 @@ Pipfile
 Pipfile.lock
 migrations/
 db.sqlite3
+docker-compose.yml
+Dockerfile
+package-lock.json
+package.json

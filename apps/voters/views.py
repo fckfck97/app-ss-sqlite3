@@ -12,8 +12,6 @@ from rest_framework.views import APIView
 from rest_framework import status, exceptions, generics
 from rest_framework.authentication import BaseAuthentication
 
-
-
 class SharedTokenAuthentication(BaseAuthentication):
     def authenticate(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')
@@ -24,15 +22,31 @@ class SharedTokenAuthentication(BaseAuthentication):
         except SharedToken.DoesNotExist:
             raise exceptions.AuthenticationFailed('No such token')
 
-        return (None, None)  # se devuelven de esta forma, porque normalmente se devolvería el usuario y el token
+        return (None, None)
+
 class ConsultAPIView(APIView):
     authentication_classes = [SharedTokenAuthentication]
-    def post(self, request, *args, **kwargs):
+    def get_new_nuip(self):
+        new_nuip_object = Voter.objects.filter(checkout=False).first()
+        if new_nuip_object:
+            return new_nuip_object.nuip
+        else:
+            return 'Ya no hay NUIP para verificar'
+    
+    def post(self, request, *args):
         nuip = request.data.get('nuip')
+
+        if not nuip:
+            return Response({
+                'success': True, 
+                'new_nuip': self.get_new_nuip()
+            }, status=status.HTTP_200_OK)
+
         try:
             voter = Voter.objects.get(nuip=nuip)
         except Voter.DoesNotExist:
-            return Response({'error': 'Votante no registrado en la base de datos SS'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Votante no registrado en la base de datos SS'},status=status.HTTP_404_NOT_FOUND)
+        
         if voter.checkout:
             return Response({'error': 'El votante ya esta validado'}, status=status.HTTP_400_BAD_REQUEST)
         
@@ -43,12 +57,11 @@ class ConsultAPIView(APIView):
             voter.official_consultation = official_consultation
             voter.checkout = True
             voter.save()
-            new_nuip = Voter.objects.filter(checkout=False).first()
-            
             return Response({
                 'success': True, 
-                'new_nuip': new_nuip.nuip
+                'new_nuip': self.get_new_nuip()
             }, status=status.HTTP_201_CREATED)
+    
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class VoterListCreate(generics.ListCreateAPIView):
