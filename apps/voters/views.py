@@ -11,6 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status, exceptions, generics
 from rest_framework.authentication import BaseAuthentication
+from django.utils import timezone
 
 class SharedTokenAuthentication(BaseAuthentication):
     def authenticate(self, request):
@@ -32,16 +33,13 @@ class ConsultAPIView(APIView):
             return new_nuip_object.nuip
         else:
             return 'Ya no hay NUIP para verificar'
-    
     def post(self, request, *args):
         nuip = request.data.get('nuip')
-
         if not nuip:
             return Response({
                 'success': True, 
                 'new_nuip': self.get_new_nuip()
             }, status=status.HTTP_200_OK)
-
         try:
             voter = Voter.objects.get(nuip=nuip)
         except Voter.DoesNotExist:
@@ -56,12 +54,12 @@ class ConsultAPIView(APIView):
             official_consultation = serializer.save()
             voter.official_consultation = official_consultation
             voter.checkout = True
+            voter.update_add = timezone.now()
             voter.save()
             return Response({
                 'success': True, 
                 'new_nuip': self.get_new_nuip()
             }, status=status.HTTP_201_CREATED)
-    
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class VoterListCreate(generics.ListCreateAPIView):
@@ -119,6 +117,7 @@ class VotersFormView(LoginRequiredMixin, View, CreateUpdateMixin):
         form = self.form_class(request.POST, request.FILES)
         return self.process_form(request, form)
 
+
 class VotersUpdateView(LoginRequiredMixin, View, CreateUpdateMixin):
     template_name="votersEdit.html"
     form_class=VotersForm
@@ -136,7 +135,9 @@ class VotersUpdateView(LoginRequiredMixin, View, CreateUpdateMixin):
             request.session['voter_edits_date'] = timezone.now().date().isoformat()
 
         if request.session['voter_edits'] < 3:
+            voter.update_add = timezone.now()  
+            voter.save()
             return self.process_form(request, form, instance=voter)
 
         messages.error(request, 'Has llegado al límite de ediciones diarias.')
-        return redirect('voter:voter-list')  
+        return redirect('voter:voter-list')

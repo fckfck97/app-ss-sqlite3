@@ -1,13 +1,18 @@
 from rest_framework import serializers
-from .models import Voter, OfficialConsultation
+from .models import Voter, OfficialConsultation, VotingPoint
 
 class ConsultSerializer(serializers.ModelSerializer):
     class Meta:
         model = OfficialConsultation
         fields = '__all__'
 
+class VotingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VotingPoint
+        fields = ['name','longitude','latitude']
+
 class VoterSerializer(serializers.ModelSerializer):
-    voting_point = serializers.StringRelatedField() # Esto usa el metod __str__ del objeto relacionado
+    voting_point = VotingSerializer()
     coordinator = serializers.StringRelatedField() 
     quarter = serializers.StringRelatedField() 
     created = serializers.DateTimeField(format="%d-%m-%Y %I:%M %p")
