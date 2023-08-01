@@ -10,11 +10,10 @@
 <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
   <!-- logo -->
   <div class="inline-flex">
-      <a class="_o6689fn" href="/"
-          >    <div class="flex items-center">
+      <a class="_o6689fn" href="/">
+          <div class="flex items-center">
             <img src="static/assets/img/ssgod.svg" class="h-8 mr-3">
           </div>
-          
       </a>
   </div>
 
@@ -52,15 +51,15 @@
   <section x-data="{ showButton: false }" class="flex flex-col justify-center items-center h-screen w-full ">
     <div class="p-6">
         <div class="animate-zoom-in">
-            <img @click="showButton = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 max-w-2xl mx-auto md:mx-0 opacity-1 cursor-pointer" alt="YL Logo" />
+            <img @click="showButton = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 max-w-2xl mx-auto opacity-1 cursor-pointer" alt="YL Logo" />
         </div>
         <p class="eslogan text-white text-center mt-8">Bienvenido.</p>
 
         <div class="mt-6 text-center">
             <!-- Aquí aplicamos el estilo del botón con un buen contenedor y más largo en los lados -->
-            <a href="{% url 'voter:voter' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-3xl py-3 px-8 rounded-md border border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-1 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Añadir votantes</a>
-            <a href="{% url 'voter:voter-list' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-3xl py-3 px-8 rounded-md border border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-1 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Ver votantes</a>
-            <a href="{% url 'voter:voter-list' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-3xl py-3 px-8 rounded-md border border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-1 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Instructivo</a>
+            <a href="{% url 'voter:voter' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-2xl py-3 px-8 rounded-full border-2 border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-1 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Añadir votantes</a>
+            <a href="{% url 'voter:voter-list' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-2xl py-3 px-8 rounded-full border-2 border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-1 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Ver votantes</a>
+            <a href="{% url 'voter:voter-list' %}" class="custom-button-login inline-block bg-transparent text-white font-bold text-2xl py-3 px-8 rounded-full border-2 border-white transition-all duration-300 ease-in-out transform translate-y-4 opacity-1 hover:bg-white hover:text-blue-500 hover:opacity-100 hover:translate-y-0" :class="{ 'opacity-100 translate-y-0': showButton }" style="min-width: 200px;" x-bind:style="{ display: showButton ? 'block' : 'none' }" x-bind:transition.opacity.duration.300ms="showButton" x-bind:transition.translate.duration.300ms="showButton">Instructivo</a>
 
               {% endif %}
             </div>
@@ -86,7 +85,7 @@
 <section x-data="{ showButton: false }" class="flex flex-col justify-center items-center h-screen w-full ">
     <div class="p-6">
         <div class="animate-zoom-in">
-            <img @click="showButton = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 max-w-2xl mx-auto md:mx-0 opacity-1 cursor-pointer" alt="YL Logo" />
+            <img @click="showButton = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 max-w-2xl mx-auto opacity-1 cursor-pointer" alt="YL Logo" />
         </div>
         <p class="eslogan text-white text-center mt-8">El app ideal, para mantener a todos sus usuarios registrados.</p>
 

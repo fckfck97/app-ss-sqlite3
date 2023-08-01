@@ -5,16 +5,27 @@ from django_select2.forms import Select2Widget
 
 DEFAULT_ATTRS = {
     'autocomplete': 'off',
-    'class': 'max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md'
+    'class': 'w-full border-2 bg-white border-white mt-3 text-gray mb-4 max-w-lg block focus:ring-indigo-500 focus:border-gray-500 sm:max-w-xs sm:text-sm rounded-full border-width-4'
+}
+TEXTAREA_ATTRS = {
+    'autocomplete': 'off',
+    'class': 'w-full border-2 border-white mt-1 text-white mb-4 max-w-lg block focus:ring-indigo-500 focus:border-gray-500 sm:max-w-xs sm:text-sm rounded-lg border-width-4'
 }
 
-def create_charfield(name, placeholder, min_length=None, max_length=None):
+def create_charfield(name, placeholder, min_length=None, max_length=None, type='text'):
+    widget = forms.TextInput(attrs={
+        **DEFAULT_ATTRS, 'placeholder': placeholder
+    })
+    if type =='textarea':
+        widget = forms.Textarea(attrs={
+            **DEFAULT_ATTRS, "rows": "2", 'placeholder': placeholder
+        })
+
+
     return forms.CharField(
         min_length=min_length,
         max_length=max_length,
-        widget=forms.TextInput(attrs={
-            **DEFAULT_ATTRS, 'placeholder': placeholder
-        }),
+        widget=widget,
         required=True
     )
 
@@ -25,7 +36,7 @@ class VotersForm(forms.ModelForm):
         ('CE','CEDULA DE EXTRANJERIA'),
     ]
 
-    typeDocument = forms.ChoiceField(choices=DOCUMENT_TYPES, widget=forms.Select(attrs=DEFAULT_ATTRS), required=True) 
+    typeDocument = forms.ChoiceField(choices=DOCUMENT_TYPES, widget=forms.Select(attrs=DEFAULT_ATTRS), required=True)
 
     nuip = create_charfield('nuip', 'Ingrese el Numero de Identidad', min_length=7, max_length=10)
 
@@ -33,9 +44,9 @@ class VotersForm(forms.ModelForm):
 
     quarter = quarter = forms.ModelChoiceField(queryset=Quarters.objects.all().order_by('name'), empty_label="Selecciona un barrio o vereda", widget=Select2Widget(attrs=DEFAULT_ATTRS), required=True)
 
-    address = forms.CharField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Direccion (Opcional)'}),max_length=150,required=False)
+    address = forms.CharField(widget=forms.Textarea(attrs={**TEXTAREA_ATTRS, 'placeholder': 'Direccion (Opcional)', type: 'textarea', 'rows': 2}),max_length=150,required=False)
     
-    numberPhone = create_charfield('numberPhone', '3111234567', min_length=10, max_length=10)
+    numberPhone = create_charfield('numberPhone', 'Número de teléfono', min_length=10, max_length=10)
 
     votingPoint = forms.ModelChoiceField(queryset=VotingPoint.objects.all(),empty_label="Selecciona un punto de votación", widget=Select2Widget(attrs=DEFAULT_ATTRS),required=True)  
 

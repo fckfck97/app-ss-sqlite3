@@ -1,56 +1,62 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<main class="main bg-white text-gray-900 flex flex-col justify-center items-center w-full min-h-screen">
+<main class="main bg-gradient-to-b from-[#6792EB] to-[#535CD4] text-gray-900 flex flex-col justify-center items-center w-full min-h-screen">
     <div class="hero w-full flex-grow" id="inicio">
-        <div class="flex flex-col justify-center items-center min-h-screen bg-white text-gray-900">
+        <div class="flex flex-col justify-center items-center min-h-screen text-gray-900">
             <a href="{% url 'voter:home' %}">
-             <img class="h-12 w-auto" src="{% static 'assets/img/yl-logo.svg' %}" alt="">
-            </a> 
+                <img class="h-12 w-auto" src="{% static 'assets/img/ssblanco.svg' %}" alt="">
+            </a>
             <div class="flex flex-wrap justify-center py-6">
-                <div class="mt-2 flex-shrink-0">
+                <div class="container mx-auto">
                     <div class="flex items-center justify-between flex-wrap sm:flex-nowrap">
                         <div class="mt-2">
-                            <h1 class="text-5xl font-extrabold">Carga los datos</h1>
-                            <form class="w-full max-w-sm space-y-6" method="POST" enctype="multipart/form-data">
+                            <h1 class="text-center text-xl text-white font-bold">
+                                Completa la siguiente informacion
+                            </h1>
+                            <video id="video" style="width: 100%; height: auto;"></video>
+                            <div class="text-center">
+                                <button id="startButton" class="mx-auto rounded-full mx-auto bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Comenzar Lectura</button>
+                            </div>
+                            <form class="w-full max-w-sm space-y-6 px-2" method="POST" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div>
-                                <label for="typeDocument" class="block text-sm font-medium text-gray-700">
-                                    Tipo de Documento
+                                <label for="typeDocument" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Tipo de Documento *
                                 </label>
                                     {{form.typeDocument}}
-                                <label for="nuip" class="block text-sm font-medium text-gray-700">
-                                    Numero de Identidad
+                                <label for="nuip" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Numero de Identidad *
                                 </label>
                                     {{form.nuip}}
-                                <label for="name" class="block text-sm font-medium text-gray-700">
-                                    Nombre Completo
+                                <label for="name" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Nombre Completo *
                                 </label>
                                     {{form.fullName}}
-                                <label for="quarter" class="block text-sm font-medium text-gray-700">
-                                    Barrio
+                                <label for="quarter" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Barrio *
                                 </label>
                                     {{form.quarter}}
-                                <label for="address" class="block text-sm font-medium text-gray-700">
-                                    Direccion
+                                <label for="address" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Dirección (opcional)
                                 </label>
                                     {{form.address}}
-                                <label for="votingPoint" class="block text-sm font-medium text-gray-700">
-                                    Punto de Votacion
-                                </label>
-                                    {{form.votingPoint}}
-                                <label for="numberPhone" class="block text-sm font-medium text-gray-700">
-                                    Numero Telefonico
+                                <label for="numberPhone" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Numero Telefónico *
                                 </label>
                                     {{form.numberPhone}}
-                                <label for="email" class="block text-sm font-medium text-gray-700">
-                                        E-mail
+                                <label for="email" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                        E-mail (opcional)
                                 </label>
                                         {{form.email}}
+                                <label for="votingPoint" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Punto de Votación *
+                                </label>
+                                    {{form.votingPoint}}
                                 <div class="control-group">
                                     <div class="controls">
-                                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Guardar
+                                        <button type="submit" class="border-2 border-white mt-4 rounded-full flex justify-center py-2 px-4 mx-auto shadow-sm text-xl text-white bg-[#6792EB] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                            Guardar
                                         </button>
                                     </div>
                                 </div>
@@ -64,8 +70,97 @@
     </div>
 </main>
 <script>
-    $(document).ready(function() {
-        $('.votingPoint').djangoSelect2();
-    });
+    window.onload = function() {
+        var settings = {};
+        //search for all elements with the class "django-select2"
+        var elements = document.querySelectorAll('.django-select2');
+        //loop through all found elements
+        for (var i = 0; i < elements.length; i++) {
+            //create a new TomSelect element for each
+            new TomSelect(elements[i], settings);
+        }
+
+        ///scan barcode
+        const video = document.getElementById('video');
+        const detectionBox = document.getElementById('detectionBox');
+        const startButton = document.getElementById('startButton');
+
+        // Check if barcode detection is supported
+        if (!('BarcodeDetector' in window)) {
+            console.error('Barcode detection is not supported on this browser.');
+            startButton.disabled = true;
+            return;
+        }
+
+        const barcodeDetector = new BarcodeDetector({ formats: ['pdf417'] });
+        const textDecoder = new TextDecoder();
+        let scanning = false;
+
+        async function startScanner() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                video.srcObject = stream;
+                video.addEventListener('loadeddata', handleVideoLoaded);
+            } catch (error) {
+                console.error('Error accessing camera: ', error);
+            }
+        }
+
+        function handleVideoLoaded() {
+            video.play();
+            scanning = true;
+            scanBarcode();
+        }
+
+        async function scanBarcode() {
+            if (!scanning) return;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            try {
+                const barcodes = await barcodeDetector.detect(canvas);
+                if (barcodes && barcodes.length > 0) {
+                    // Get the barcode result for further processing
+                    const barcodeResult = barcodes[0];
+                    console.log('Barcode detected:', barcodeResult);
+                    // Extract the relevant information from the barcode
+                    const { x, y, width, height } = barcodeResult.boundingBox;
+
+                    // Update the detection box position and size
+                    detectionBox.style.left = `${x}px`;
+                    detectionBox.style.top = `${y}px`;
+                    detectionBox.style.width = `${width}px`;
+                    detectionBox.style.height = `${height}px`;
+
+                    // Decode and convert binary data to readable format
+                    const binaryData = barcodeResult.rawData;
+                    const decodedData = textDecoder.decode(binaryData);
+                    console.log('Decoded data:', decodedData);
+
+                    // Stop scanning after detecting a barcode
+                    scanning = false;
+                }
+
+                // Continue scanning for barcodes
+                if (scanning) {
+                    requestAnimationFrame(scanBarcode);
+                }
+            } catch (error) {
+                console.error('Error scanning barcode:', error);
+            }
+        }
+
+        startButton.addEventListener('click', startScanner);
+    };
 </script>
+    <style>
+    .ts-control {
+        border-radius: 9999px !important;
+    }
+    </style>
 {% endblock content %}
