@@ -2,7 +2,6 @@
 {% load static %}
 
 {% block navbar %}
-
 <nav class=" bg-white w-full flex relative justify-between items-center mx-auto px-8 h-20">
     <div class="inline-flex">
         <a class="_o6689fn" href="/">    
@@ -35,69 +34,73 @@
 
 
 {% block content %}
-<div class="w-full overflow-hidden rounded-lg shadow-xs mb-10">
+<div class="w-full overflow-hidden rounded-lg shadow-xs mb-10 p-5 mx-5">
     <div class="flex flex-col h-screen justify-between">
         <div class="w-full overflow-x-auto overflow-hidden rounded-lg shadow-xs flex-grow mb-10 flex flex-col justify-between">
-        <table class="w-full whitespace-no-wrap">
-            <thead>
-                <tr class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-500 dark:bg-gray-800">
-                    <th class="px-4 py-3">Numero de Documento</th>
-                    <th class="px-4 py-3">Nombre Completo</th>
-                    <th class="px-4 py-3">Barrio</th>
-                    <th class="px-4 py-3">Punto de Votacion</th>    
-                    <th class="px-4 py-3">Telefono</th>
-                    <th class="px-4 py-3">Coordinador</th>
-                    <th class="px-4 py-3">Acciones</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                {% for voter in page_obj  %}
-                <tr class="text-gray-700 dark:text-gray-400 text-center">
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.document_type }}-{{ voter.nuip }}
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.full_name }}
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.quarter }}
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.voting_point }}
-                    </td>
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.phone }}
-                    </td>
-
-                    <td class="px-4 py-3 text-sm">
-                        {{ voter.coordinator }}
-                    </td>
-                    <td class="px-4 py-3 flex justify-around">
-                        {% if not voter.checkout %}
-                            <a href="{% url 'voter:voter-edit' voter.id %}" class="bg-black-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">
-                                Edit
-                            </a>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-            <nav class="block py-2 px-4 text-center bg-white mt-auto">
-
-            {% if page_obj.has_previous %}
-                <a href="?page=1" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Primero</a>
-                <a href="?page={{ page_obj.previous_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Anterior</a>
-            {% endif %}
-            <span class="px-3 py-2 bg-blue-200 text-blue-800 rounded">{{ page_obj.number }}</span>
-            <span class="px-3 py-2 bg-blue-200 text-blue-800 rounded">de</span>
-            <span class="px-3 py-2 bg-blue-200 text-blue-800 rounded">{{ page_obj.paginator.num_pages }}</span>
-            {% if page_obj.has_next %}
-                <a href="?page={{ page_obj.next_page_number }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Siguiente</a>
-                <a href="?page={{ page_obj.paginator.num_pages }}" class="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-400">Último</a>
-            {% endif %}
-        </nav>
+            <table class="w-full whitespace-no-wrap">
+                <thead>
+                    <tr class="text-xs font-semibold tracking-wide text-center text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-500 dark:bg-gray-800">
+                        <th class="px-4 py-3">Numero de Documento</th>
+                        <th class="px-4 py-3">Nombre Completo</th>
+                        <th class="px-4 py-3">Barrio</th>
+                        <th class="px-4 py-3">Punto de Votacion</th>    
+                        <th class="px-4 py-3">Telefono</th>
+                        <th class="px-4 py-3">Coordinador</th>
+                        <th class="px-4 py-3">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                    {% for voter in page_obj  %}
+                    <tr class="text-gray-700 dark:text-gray-400 text-center">
+                        <td class="px-4 py-3 text-sm">
+                            {{ voter.document_type }}-{{ voter.nuip }}
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            {{ voter.full_name }}
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            {{ voter.quarter }}
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            {{ voter.voting_point }}
+                        </td>
+                        <td class="px-4 py-3 text-sm">
+                            {{ voter.phone }}
+                        </td>
+    
+                        <td class="px-4 py-3 text-sm">
+                            {{ voter.coordinator }}
+                        </td>
+                        <td class="px-4 py-3 flex justify-around">
+                            {% if not voter.checkout %}
+                                <a href="{% url 'voter:voter-edit' voter.id %}" class="bg-black-500 hover:bg-yellow-600 text-white py-1 px-2 rounded">
+                                    Edit
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="mt-0 mx-4 mb-4">
+                <nav class="flex flex-row justify-center items-center gap-2 py-2 px-4 bg-white mt-auto">
+            
+                {% if page_obj.has_previous %}
+                    <a href="?page=1" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600">Primero</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600">Anterior</a>
+                {% endif %}
+            
+                <span class="inline-flex items-center px-4 py-2 bg-blue-50 text-blue-800 rounded font-medium">{{ page_obj.number }}</span>
+                <span class="font-medium">de</span>
+                <span class="inline-flex items-center px-4 py-2 bg-blue-100 text-blue-800 rounded font-medium">{{ page_obj.paginator.num_pages }}</span>
+            
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600">Siguiente</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-blue-500 hover:bg-blue-600">Último</a>
+                {% endif %}
+            
+                </nav>
+            </div>
     </div>
 </div>
-</body>
 {% endblock content %}

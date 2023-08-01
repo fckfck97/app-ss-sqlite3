@@ -11,8 +11,6 @@ from .serializers import VoterSerializer, ConsultSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
-from .archivos.quarters import load_quarters
-from .archivos.votingpoint import load_point
 
 class ConsultAPIView(APIView):
     
@@ -32,10 +30,11 @@ class ConsultAPIView(APIView):
             voter.official_consultation = official_consultation
             voter.checkout = True
             voter.save()
+            new_nuip = Voter.objects.filter(checkout=False).first()
             
             return Response({
                 'success': True, 
-                'new_nuip': official_consultation.nuip
+                'new_nuip': new_nuip.nuip
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
