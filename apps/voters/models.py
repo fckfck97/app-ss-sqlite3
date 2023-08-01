@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+import uuid
 
 DOCUMENT_TYPES = [
     ('CC','CEDULA DE CIUDADANIA'),
@@ -71,3 +72,10 @@ class UserParent(models.Model):
 
     def __str__(self):
         return self.user.username
+
+class SharedToken(models.Model):
+    key = models.CharField(max_length=32, unique=True,blank=True)
+    def save(self, *args, **kwargs):
+        if not self.key:    
+            self.key = uuid.uuid4().hex
+        super().save(*args, **kwargs)

@@ -5,15 +5,28 @@ from django.views import View
 from django.views.generic import ListView
 from django.utils import timezone
 from .forms import VotersForm
-from .models import Voter
-from rest_framework import generics
+from .models import Voter,SharedToken
 from .serializers import VoterSerializer, ConsultSerializer
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework import status
+from rest_framework import status, exceptions, generics
+from rest_framework.authentication import BaseAuthentication
 
+
+
+class SharedTokenAuthentication(BaseAuthentication):
+    def authenticate(self, request):
+        token = request.META.get('HTTP_AUTHORIZATION')
+        if not token:
+            return None
+        try:
+            SharedToken.objects.get(key=token)
+        except SharedToken.DoesNotExist:
+            raise exceptions.AuthenticationFailed('No such token')
+
+        return (None, None)  # se devuelven de esta forma, porque normalmente se devolvería el usuario y el token
 class ConsultAPIView(APIView):
-    
+    authentication_classes = [SharedTokenAuthentication]
     def post(self, request, *args, **kwargs):
         nuip = request.data.get('nuip')
         try:
