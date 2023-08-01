@@ -44,6 +44,7 @@ class Voter(models.Model):
     document_type = models.CharField(max_length=2, choices=DOCUMENT_TYPES, default='CC', blank=True)
     nuip = models.CharField(max_length=11, unique=True)
     full_name = models.CharField(max_length=100)
+    related_count = models.IntegerField(default=1)
     quarter = models.ForeignKey(Quarters, on_delete=models.CASCADE, blank=True)
     address = models.CharField(max_length=100, blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True)

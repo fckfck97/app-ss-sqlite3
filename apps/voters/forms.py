@@ -42,6 +42,8 @@ class VotersForm(forms.ModelForm):
 
     full_name = create_charfield('full_name', 'Ingrese el Nombre completo')
 
+    related_count = forms.IntegerField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Numero de Integrantes'}),required=False)
+    
     quarter = quarter = forms.ModelChoiceField(queryset=Quarters.objects.all().order_by('name'), empty_label="Selecciona un barrio o vereda", widget=Select2Widget(attrs=DEFAULT_ATTRS), required=True)
 
     address = forms.CharField(widget=forms.Textarea(attrs={**TEXTAREA_ATTRS, 'placeholder': 'Direccion (Opcional)', type: 'textarea', 'rows': 2}),max_length=150,required=False)
