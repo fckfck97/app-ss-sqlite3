@@ -1,0 +1,42 @@
+{% load static %}
+{% include "base/head.html" %}
+{% include "messages.html" %}
+
+{% block content %}
+<section x-data="{ showButton: false }" class="flex flex-col justify-center items-center h-screen w-full ">
+    <div class="p-6">
+        <div class="animate-zoom-in">
+            <img @click="showButton = true" src="{% static 'assets/img/ssblanco.svg' %}" class="w-32 max-w-2xl mx-auto md:mx-0 opacity-1 cursor-pointer" alt="Logo ss" />
+        </div>
+        <p class="eslogan text-white text-center mt-8">El app ideal, para mantener a todos sus usuarios registrados.</p>
+
+        <div class="mt-6 text-center">
+          <!-- Aquí aplicamos el estilo del botón con un buen contenedor y más largo en los lados -->
+          <a href="{% url 'account_login' %}" id="ingresaButton" style="opacity: 0;" class="custom-button-login inline-block bg-transparent text-white font-bold text-3xl py-3 px-8 rounded-md border border-white transition-all duration-300 ease-in-out transform translate-y-4 hover:bg-white hover:text-blue-500 hover:opacity-100 translate-y-0">Ingresa</a>
+        </div>
+        
+    </div>
+</section>
+{% endblock content %}
+
+{% block js %}
+<script>
+    function initButton() {
+        const isFirstVisit = localStorage.getItem('isFirstVisit');
+        if (!isFirstVisit) {
+            setTimeout(() => {
+                document.getElementById('ingresaButton').style.opacity = 1;
+            }, 3000);
+            localStorage.setItem('isFirstVisit', 'true');
+        } else {
+            setTimeout(() => {
+                document.getElementById('ingresaButton').style.opacity = 1;
+            }, 1000);
+        }
+    }
+    
+    window.onload = initButton;
+</script>
+{% endblock js %}
+
+

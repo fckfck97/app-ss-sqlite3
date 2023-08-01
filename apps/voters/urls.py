@@ -1,11 +1,12 @@
 from django.urls import path
-from .views import HomeView, VotersFormView, VotersUpdateView, VoterListView, VoterListCreate, ConsultAPIView
+from .views import HomeView, VotersFormView, VotersUpdateView, VoterListView, VoterListCreate, ConsultAPIView, DashboardView
 from .reporte import reportVoter, reportUserParent, reportByQuarter, reportByVotingPoint
 app_name = 'apps.voters'
 
 
 urlpatterns = [
     path('', HomeView.as_view(), name="home"),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
     path('voters/', VoterListView.as_view(), name='voter-list'),
     path('voter',VotersFormView.as_view(), name='voter'),
     path('voter/<pk>/edit',VotersUpdateView.as_view(), name='voter-edit'),

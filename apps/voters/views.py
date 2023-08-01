@@ -57,9 +57,15 @@ class CreateUpdateMixin():
         return render(request, self.template_name, {'form': form})
 
 class HomeView(View):
+    template_name ='home.html'
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('voter:dashboard')
+        return render(request, self.template_name)
+
+class DashboardView(LoginRequiredMixin,View):
     template_name ='dash.html'
     def get(self, request, *args, **kwargs):
-        
         return render(request, self.template_name)
     
 class VoterListView(LoginRequiredMixin, ListView):

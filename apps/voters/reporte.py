@@ -77,9 +77,10 @@ def reportByQuarter(request):
     if request.user.is_authenticated:
         try:
             # Se agrupa los votantes respecto al campo quarter y se cuenta cuántos hay en cada uno
-            voters = Voter.objects.values('quarter').annotate(count=models.Count('quarter')).order_by('-count')
+            voters = Voter.objects.values('quarter__name').annotate(count=models.Count('quarter')).order_by('-count')
             # Se cuenta el total de votantes
             total_voters = Voter.objects.count()
+            
             context = {
                 'quarters': voters,
                 'total_voters': total_voters,
