@@ -77,4 +77,4 @@ class VotersForm(forms.ModelForm):
 
     class Meta:
         model = Voter
-        fields = ['document_type', 'nuip', 'full_name', 'quarter', 'voting_point', 'phone', 'email', 'address']
+        fields = ['document_type', 'nuip', 'full_name', 'related_count','quarter', 'voting_point', 'phone', 'email', 'address']

@@ -25,7 +25,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'corsheaders',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -68,6 +68,13 @@ ACCOUNT_LOGOUT_ON_GET = True
 
 TAILWIND_APP_NAME = 'theme'
 
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+    "https://gotzell.pythonanywhere.com",
+]
+
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
@@ -75,7 +82,7 @@ INTERNAL_IPS = [
 NPM_BIN_PATH = "/usr/local/bin/npm"
 
 MIDDLEWARE = [
-
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
