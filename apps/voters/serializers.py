@@ -15,10 +15,10 @@ class VoterSerializer(serializers.ModelSerializer):
     voting_point = VotingSerializer()
     coordinator = serializers.StringRelatedField() 
     quarter = serializers.StringRelatedField() 
-    created = serializers.DateTimeField(format="%d-%m-%Y %I:%M %p")
-    modified = serializers.DateField(format="%d-%m-%Y")  # asumiendo que solo quieres la fecha
+    created_add = serializers.DateTimeField(format="%d-%m-%Y %I:%M %p")
+    update_add = serializers.DateField(format="%d-%m-%Y %I:%M %p")  # asumiendo que solo quieres la fecha
     official_consultation = ConsultSerializer()
     
     class Meta:
         model = Voter
-        fields = ['id','document_type', 'nuip', 'full_name', 'quarter','voting_point', 'address', 'phone', 'email', 'coordinator', 'created', 'modified','official_consultation','checkout']
+        fields = ['id','document_type', 'nuip', 'full_name', 'quarter','voting_point', 'address', 'phone', 'email', 'coordinator', 'created_add', 'update_add','official_consultation','checkout']
