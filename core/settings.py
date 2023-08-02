@@ -113,16 +113,16 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Gotzell$test', # El prefijo "$" indica que esta es una base de datos PythonAnywhere
+        'USER': 'Gotzell', # Puede ser tu username de PythonAnywhere
+        'PASSWORD': 'Atena12..', # La password que elegiste al configurar MySQL
+        'HOST': 'Gotzell.mysql.pythonanywhere-services.com', # Tu nombre de usuario seguido de mysql.pythonanywhere-services.com
+        'PORT': '3306',
     }
 }
-
-
-
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
