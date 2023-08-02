@@ -35,33 +35,46 @@ class ConsultAPIView(APIView):
             return 'Ya no hay NUIP para verificar'
     def post(self, request, *args):
         nuip = request.data.get('nuip')
+        current_department = request.data.get('department')
+        current_municipality = request.data.get('municipality')
+
         if not nuip:
             return Response({
-                'success': True, 
+                'success': True,
                 'new_nuip': self.get_new_nuip()
             }, status=status.HTTP_200_OK)
+
         try:
             voter = Voter.objects.get(nuip=nuip)
         except Voter.DoesNotExist:
-            return Response({'error': 'Votante no registrado en la base de datos SS'},status=status.HTTP_404_NOT_FOUND)
-        
-        if voter.checkout:
-            return Response({'error': 'El votante ya esta validado'}, status=status.HTTP_400_BAD_REQUEST)
-        
+            return Response({'error': 'Votante no registrado en la base de datos SS'}, status=status.HTTP_404_NOT_FOUND)
+
         serializer = ConsultSerializer(data=request.data)
-        
+
         if serializer.is_valid():
             official_consultation = serializer.save()
-            voter.official_consultation = official_consultation
-            voter.checkout = True
-            voter.update_add = timezone.now()
-            voter.save()
-            return Response({
-                'success': True, 
-                'new_nuip': self.get_new_nuip()
-            }, status=status.HTTP_201_CREATED)
+
+            if voter.voting_point.department != current_department or voter.voting_point.municipality != current_municipality:
+                voter.verified_query = 'Confirmado pero no pertenece al puesto de votación que se asignó en el registro'
+            else:
+                if not voter.verified_query:
+                    voter.verified_query = 'Verificado y autorizado'
+
+            if voter.checkout:
+                return Response({'error': 'El votante ya esta validado'}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                voter.official_consultation = official_consultation
+                voter.checkout = True
+                voter.update_at = timezone.now()
+                voter.save()
+
+                return Response({
+                    'success': True,
+                    'new_nuip': self.get_new_nuip()
+                }, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
 class VoterListCreate(generics.ListCreateAPIView):
     queryset = Voter.objects.all()
     serializer_class = VoterSerializer

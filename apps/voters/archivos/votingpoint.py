@@ -2,7 +2,7 @@ def load_point():
     from ..models import VotingPoint
     PUNTO=[
         ("CENTRO DE EXPRESION CULTURAL","CENTRO DE EXPRESION CULTURAL","7.796604","-72.51856"),
-        ("COLEGIO PATIO CENTRO N#2","COLEGIO PATIO CENTRO N#2","7.8352995","-72.505971"),
+        ("COL PATIO CENTRO No.2","COLEGIO PATIO CENTRO N#2","7.8352995","-72.505971"),
         ("COLEGIO BASICO PATIOS CENTRO N#1","COLEGIO BASICO PATIOS CENTRO N#1","7.8394482","-72.5099697"),
         ("COLEGIO 11 DE NOVIEMBRE","COLEGIO 11 DE NOVIEMBRE","7.8297018","-72.5120308"),
         ("COLEGIO BAS. LA SABANA","COLEGIO BAS. LA SABANA","7.8276126","-72.5191967"),
@@ -23,4 +23,4 @@ def load_point():
     ]
     
     for item in PUNTO:
-        VotingPoint.objects.get_or_create(name=item[0], latitude=item[2],longitude=item[3])
+        VotingPoint.objects.get_or_create(name=item[0], latitude=item[2],longitude=item[3],department="NORTE DE SANTANDER",municipality="LOS PATIOS")

@@ -57,6 +57,22 @@
   
   window.onload = initButton;
 </script>
+<script>
+    fetch('http://127.0.0.1:8000/api/v1/voters', {
+        method: 'GET',
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log(data)
+        // Aquí puedes manipular los datos recibidos.
+        // Por ejemplo puedes crear una tabla dinámica.
+        let votingPoint = data.voting_point;
+        document.getElementById("div_id").innerHTML = `ID: ${data.id} <br/> Document Type: ${data.document_type} <br/> Name: ${data.full_name} <br/> Address: ${data.address} <br/> Phone: ${data.phone} <br/> Email: ${data.email} <br/> Voting Point Name: ${votingPoint.name} <br/> Voting Point Longitude: ${votingPoint.longitude} <br/> Voting Point Latitude: ${votingPoint.latitude}`;  
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+</script>
 {% endblock js %}
 
 

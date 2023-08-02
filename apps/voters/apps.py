@@ -9,15 +9,15 @@ class VotersConfig(AppConfig):
     def ready(self):
         from .archivos import signal
         
-    #     self.check_and_load_quarters()
-    #     self.check_and_load_points()
+        self.check_and_load_quarters()
+        self.check_and_load_points()
 
-    # def check_and_load_quarters(self):
-    #     from .models import Quarters
-    #     if not Quarters.objects.exists():
-    #         load_quarters()
+    def check_and_load_quarters(self):
+        from .models import Quarters
+        if not Quarters.objects.exists():
+            load_quarters()
 
-    # def check_and_load_points(self):
-    #     from .models import VotingPoint
-    #     if not VotingPoint.objects.exists():
-    #         load_point()
+    def check_and_load_points(self):
+        from .models import VotingPoint
+        if not VotingPoint.objects.exists():
+            load_point()

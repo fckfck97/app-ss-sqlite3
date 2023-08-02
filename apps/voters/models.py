@@ -11,6 +11,9 @@ class VotingPoint(models.Model):
     name = models.CharField(max_length=200)
     longitude = models.DecimalField(max_digits=9, decimal_places=6) 
     latitude = models.DecimalField(max_digits=10, decimal_places=6)
+    department = models.CharField(max_length=50, blank=True)
+    municipality = models.CharField(max_length=50, blank=True)
+    
     def __str__(self):
         self.name = self.name.upper()
         return self.name
@@ -35,7 +38,6 @@ class OfficialConsultation(models.Model):
         self.municipality = self.municipality.upper()
         self.point = self.point.upper()
         self.address = self.address.upper()
-
         super().save(*args, **kwargs)
 
     def __str__(self):
@@ -56,7 +58,7 @@ class Voter(models.Model):
     coordinator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     official_consultation = models.ForeignKey(OfficialConsultation, on_delete=models.CASCADE, blank=True,null=True)
     checkout = models.BooleanField(default=False)
-    
+    verified_query = models.CharField(max_length=50,blank=True)
     def save(self, *args, **kwargs):
         self.full_name = self.full_name.upper()
         self.address = self.address.upper()
