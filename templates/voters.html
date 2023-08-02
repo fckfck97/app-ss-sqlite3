@@ -37,10 +37,10 @@
                                     Barrio *
                                 </label>
                                     {{form.quarter}}
-                                <label for="related_count" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
-                                    Nucleo Familiar *
+                                <label for="parent_voter_count" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
+                                    Referidos *
                                 </label>
-                                    {{form.related_count}}
+                                    {{form.parent_voter_count}}
                                 <label for="address" class="block text-sm font-medium text-white pl-2 mb-1 mt-2 ">
                                     Dirección (opcional)
                                 </label>
@@ -57,6 +57,7 @@
                                     Punto de Votación *
                                 </label>
                                     {{form.voting_point}}
+                                <input type="hidden" id="child_voters_data" name="child_voters_data">
                                 <div class="control-group">
                                     <div class="controls">
                                         <button type="submit" class="border-2 border-white mt-4 rounded-full flex justify-center py-2 px-4 mx-auto shadow-sm text-xl text-white bg-[#6792EB] hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
@@ -65,13 +66,21 @@
                                     </div>
                                 </div>
                                 </div>
+                                
                             </form>
+                            <div id="myModal" class="modal">
+                                <div class="modal-content">
+                                    <span class="close">&times;</span>
+                                    <div id="additional_form_container"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    
 </main>
 {% block js %}
 <script>
@@ -162,6 +171,52 @@
 
         startButton.addEventListener('click', startScanner);
     };
+    $(document).ready(function(){
+        var modal = document.getElementById("myModal");
+    
+        $('#id_parent_voter_count').change(function(){
+            var parent_voter_count_num = $(this).val();
+            var container = $('#additional_form_container');
+            container.empty();
+            for(let i = 0; i < parent_voter_count_num; i++) {
+                var form = '<div><input type="text" id="child_nuip_'+i+'" name="child_nuip_'+i+'" placeholder="No. Cédula"><input type="text" id="child_name_'+i+'" name="child_name_'+i+'" placeholder="Nombre completo"></div>';
+                container.append(form);
+            }
+            if(parent_voter_count_num > 0) {
+                var submit_button = '<button type="button" id="collect_data_button">Finalizar Referidos</button>';
+                container.append(submit_button);
+                modal.style.display = "block"; 
+            }
+        });
+        
+        $('form').on('submit', function(event){
+            event.preventDefault();
+            var parent_voter_count_num = $('#id_parent_voter_count').val();
+            var child_voters_data = [];
+    
+            for(let i = 0; i < parent_voter_count_num; i++) {
+                let child_nuip = $('#child_nuip_'+i).val();
+                let child_name = $('#child_name_'+i).val();
+    
+                // Tomamos los datos de los input fields y creamos un objeto de votante hijo.
+                let child_voter_data = {
+                    'nuip': child_nuip,
+                    'full_name': child_name,
+                }
+                // Añadimos el objeto al array de datos de votantes hijo.
+                child_voters_data.push(child_voter_data);
+            }
+    
+            // Convertimos el array de datos de votantes hijo a una cadena en formato JSON y lo asignamos al input field.
+            $('#child_voters_data').val(JSON.stringify(child_voters_data));
+            
+            // Cerramos el modal después de recoger todos los datos.
+            modal.style.display = "none"; 
+    
+            // Enviamos el formulario manualmente.
+            this.submit();
+        });
+    });
 </script>
 <style>
     .ts-control {

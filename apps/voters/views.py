@@ -12,7 +12,7 @@ from rest_framework.views import APIView
 from rest_framework import status, exceptions, generics
 from rest_framework.authentication import BaseAuthentication
 from django.utils import timezone
-
+import json
 class SharedTokenAuthentication(BaseAuthentication):
     def authenticate(self, request):
         token = request.META.get('HTTP_AUTHORIZATION')
@@ -37,29 +37,23 @@ class ConsultAPIView(APIView):
         nuip = request.data.get('nuip')
         current_department = request.data.get('department')
         current_municipality = request.data.get('municipality')
-
         if not nuip:
             return Response({
                 'success': True,
                 'new_nuip': self.get_new_nuip()
             }, status=status.HTTP_200_OK)
-
         try:
             voter = Voter.objects.get(nuip=nuip)
         except Voter.DoesNotExist:
             return Response({'error': 'Votante no registrado en la base de datos SS'}, status=status.HTTP_404_NOT_FOUND)
-
         serializer = ConsultSerializer(data=request.data)
-
         if serializer.is_valid():
             official_consultation = serializer.save()
-
             if voter.voting_point.department != current_department or voter.voting_point.municipality != current_municipality:
-                voter.verified_query = 'Confirmado pero no pertenece al puesto de votación que se asignó en el registro'
+                voter.checkout_confirmation = False
             else:
-                if not voter.verified_query:
-                    voter.verified_query = 'Verificado y autorizado'
-
+                if not voter.checkout_confirmation:
+                    voter.checkout_confirmation = True
             if voter.checkout:
                 return Response({'error': 'El votante ya esta validado'}, status=status.HTTP_400_BAD_REQUEST)
             else:
@@ -67,19 +61,17 @@ class ConsultAPIView(APIView):
                 voter.checkout = True
                 voter.update_at = timezone.now()
                 voter.save()
-
                 return Response({
                     'success': True,
                     'new_nuip': self.get_new_nuip()
                 }, status=status.HTTP_201_CREATED)
-
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VoterListCreate(generics.ListCreateAPIView):
     queryset = Voter.objects.all()
     serializer_class = VoterSerializer
     
-class CreateUpdateMixin():
+class CreateUpdateMixin(LoginRequiredMixin, View):
     def process_form(self, request, form, instance=None):
         if form.is_valid():
             form.instance.coordinator = request.user
@@ -118,7 +110,7 @@ class VoterListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         return Voter.objects.filter(coordinator=self.request.user)
 
-class VotersFormView(LoginRequiredMixin, View, CreateUpdateMixin):
+class VotersFormView(CreateUpdateMixin):
     template_name = 'voters.html'
     form_class = VotersForm
 
@@ -128,10 +120,28 @@ class VotersFormView(LoginRequiredMixin, View, CreateUpdateMixin):
 
     def post(self, request):
         form = self.form_class(request.POST, request.FILES)
+        if form.is_valid():
+            parent_voter = form.save(commit=False) 
+            parent_voter.coordinator = request.user 
+            parent_voter.save()  
+            child_voters_data_str = request.POST.get('child_voters_data', '[]')
+            print(child_voters_data_str)
+            if child_voters_data_str:
+                child_voters_data = json.loads(child_voters_data_str)
+            else:
+                child_voters_data = []
+            print(child_voters_data)
+            for child_data in child_voters_data:
+                Voter.objects.create(
+                    parent_voter=parent_voter,
+                    document_type=child_data.get('document_type', 'CC'),
+                    nuip=child_data.get('nuip'),
+                    full_name=child_data.get('full_name'),
+                    coordinator=request.user,
+                )
         return self.process_form(request, form)
-
-
-class VotersUpdateView(LoginRequiredMixin, View, CreateUpdateMixin):
+    
+class VotersUpdateView(CreateUpdateMixin):
     template_name="votersEdit.html"
     form_class=VotersForm
 

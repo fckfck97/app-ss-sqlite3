@@ -50,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
-                    {% for voter in page_obj  %}
+                    {% for voter in page_obj %}
                     <tr class="text-gray-700 dark:text-gray-400 text-center">
                         <td class="px-4 py-3 text-sm">
                             {{ voter.document_type }}-{{ voter.nuip }}
@@ -58,16 +58,25 @@
                         <td class="px-4 py-3 text-sm">
                             {{ voter.full_name }}
                         </td>
+                        
+                        {% if voter.parent_voter %}
+                        <td class="px-4 py-3 text-sm">
+                            Referido de <br> 
+                            {{ voter.parent_voter.full_name }}
+                        </td>
+                        {% else %}
                         <td class="px-4 py-3 text-sm">
                             {{ voter.quarter }}
                         </td>
+                        {% endif %}
+                        
                         <td class="px-4 py-3 text-sm">
                             {{ voter.voting_point }}
                         </td>
                         <td class="px-4 py-3 text-sm">
                             {{ voter.phone }}
                         </td>
-    
+                
                         <td class="px-4 py-3 text-sm">
                             {{ voter.coordinator }}
                         </td>

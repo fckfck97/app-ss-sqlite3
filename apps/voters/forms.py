@@ -31,7 +31,6 @@ def create_charfield(name, placeholder, min_length=None, max_length=None, type='
 
 class VotersForm(forms.ModelForm):
     DOCUMENT_TYPES = [
-        ('','Selecciona un tipo de documento'),
         ('CC','CEDULA DE CIUDADANIA'),
         ('CE','CEDULA DE EXTRANJERIA'),
     ]
@@ -42,7 +41,7 @@ class VotersForm(forms.ModelForm):
 
     full_name = create_charfield('full_name', 'Ingrese el Nombre completo')
 
-    related_count = forms.IntegerField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Numero de Integrantes'}),required=False)
+    parent_voter_count = forms.IntegerField(widget=forms.TextInput(attrs={**DEFAULT_ATTRS, 'placeholder': 'Ingrese el Numero de Integrantes'}),required=False)
     
     quarter = quarter = forms.ModelChoiceField(queryset=Quarters.objects.all().order_by('name'), empty_label="Selecciona un barrio o vereda", widget=Select2Widget(attrs=DEFAULT_ATTRS), required=True)
 
@@ -77,4 +76,4 @@ class VotersForm(forms.ModelForm):
 
     class Meta:
         model = Voter
-        fields = ['document_type', 'nuip', 'full_name', 'related_count','quarter', 'voting_point', 'phone', 'email', 'address']
+        fields = ['document_type', 'nuip', 'full_name', 'parent_voter_count','quarter', 'voting_point', 'phone', 'email', 'address']
