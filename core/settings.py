@@ -42,8 +42,8 @@ SOCIALACCOUNT_LOGIN_ON_GET=True
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '822737658946-k8b12hq2muvrer5ommsu8tebtf7t7c19.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': '876739023756-t8gdm140c4gqqg4senqkjdc0njgfhjg8.apps.googleusercontent.com',
+            'secret': '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',
             'key': '',
         }
     }
